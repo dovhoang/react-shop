@@ -1,0 +1,29 @@
+.menu-items{
+    color: white !important;
+    
+}
+
+.menu-items:hover{
+    color:rgb(199, 199, 199) !important;
+}
+
+.menu-items-active{
+    color: red !important;
+}
+.menu-items,
+.menu-items-active{
+    text-decoration: none !important;
+    font-size: 15px !important;
+}
+
+.sign-out{
+    font-size: 15px !important;
+    color: white !important;
+    cursor: pointer;
+}
+
+@media(max-width: 906px){
+.menu-list{
+    display: none;
+    }
+}
