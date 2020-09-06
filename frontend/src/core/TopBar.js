@@ -11,6 +11,9 @@ import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import History from '@material-ui/icons/History';
+import ExitToApp from '@material-ui/icons/ExitToApp';
+import Home from '@material-ui/icons/Home';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
@@ -49,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
         [theme.breakpoints.up('sm')]: {
             marginLeft: theme.spacing(3),
-            width: '300px',
+            width: '500px',
         },
     },
     searchIcon: {
@@ -134,8 +137,17 @@ const TopBar = (props) => {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+                <Link className='nav-link sub-menu' to='/profile'> Profile
+                </Link></MenuItem>
+            <MenuItem onClick={handleMenuClose}>
+                <span className='nav-link sub-menu'
+                    onClick={() => signout(() => {
+                        props.history.push("/");
+                    })}
+                >Sign out
+                </span>
+            </MenuItem>
         </Menu>
     );
 
@@ -152,30 +164,35 @@ const TopBar = (props) => {
         >
             <MenuItem>
                 <IconButton aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="secondary">
-                        <MailIcon />
+                    <Badge color="secondary">
+                        <AccountCircle />
                     </Badge>
                 </IconButton>
-                <p>Messages</p>
+                <p>Account</p>
             </MenuItem>
             <MenuItem>
-                <IconButton aria-label="show 11 new notifications" color="inherit">
-                    <Badge badgeContent={11} color="secondary">
-                        <NotificationsIcon />
+                <IconButton aria-label="show 4 new mails" color="inherit">
+                    <Badge color="secondary">
+                        <History />
                     </Badge>
                 </IconButton>
-                <p>Notifications</p>
+                <p>History purchse</p>
             </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
+            <MenuItem onClick={handleMobileMenuClose}>
                 <IconButton
                     aria-label="account of current user"
                     aria-controls="primary-search-account-menu"
                     aria-haspopup="true"
                     color="inherit"
                 >
-                    <AccountCircle />
+                    <ExitToApp />
                 </IconButton>
-                <p>Profile</p>
+                <span className='nav-link sub-menu'
+                    onClick={() => signout(() => {
+                        props.history.push("/");
+                    })}
+                >Sign out
+                </span>
             </MenuItem>
         </Menu>
     );
@@ -192,9 +209,9 @@ const TopBar = (props) => {
                         color="inherit"
                         aria-label="open drawer"
                     >
-                        <MenuIcon />
+                        <Link to='/' className='menu-items'><Home /> Home</Link>
                     </IconButton>
-                    <Typography className={classes.title} variant="h6" noWrap>
+                    {/* <Typography className={classes.title} variant="h6" noWrap>
                         <ul className="nav nav-tab menu-list" >
                             {!isAuthenticate() &&
                                 <React.Fragment>
@@ -207,11 +224,20 @@ const TopBar = (props) => {
                                     <li className="nav-link">
                                         <Link className={isActive(props.history, '/signup')} to="/signup" >SIGN UP</Link>
                                     </li>
-
                                 </React.Fragment>
                             }
                             {isAuthenticate() &&
                                 <React.Fragment>
+                                    <li className='nav-link'>
+                                        <Link className={isActive(props.history, '/profile')} to="/profile">
+                                            PROFILE
+                                        </Link>
+                                    </li>
+                                    <li className='nav-link'>
+                                        <Link className={isActive(props.history, '/histoy-purchse')} to="/histoy-purchse">
+                                            HISTORY PURCHASE </Link>
+                                    </li>
+
                                     <li className="nav-link">
                                         <span className='nav-link sign-out '
                                             onClick={() => signout(() => {
@@ -223,7 +249,7 @@ const TopBar = (props) => {
                                 </React.Fragment>}
                         </ul>
 
-                    </Typography>
+                    </Typography> */}
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
                             <SearchIcon />
@@ -239,26 +265,60 @@ const TopBar = (props) => {
                     </div>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
-                        <IconButton aria-label="show 4 new mails" color="inherit">
-                            <Badge badgeContent={4} color="secondary">
-                                <MailIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton aria-label="show 17 new notifications" color="inherit">
-                            <Badge badgeContent={17} color="secondary">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
+                        {!isAuthenticate() &&
+                            <React.Fragment>
+                                <Link className='mr-3' to='/signin'>
+                                    <IconButton
+                                        edge="end"
+                                        aria-label="account of current user"
+                                        aria-controls={menuId}
+                                        aria-haspopup="true"
+                                        color="inherit"
+                                        className="menu-items"
+                                    >
+                                        Sign in
+                                </IconButton>
+                                </Link>
+                                <Link className='mr-3' to='/signup'>
+                                    <IconButton
+
+                                        edge="end"
+                                        aria-label="account of current user"
+                                        aria-controls={menuId}
+                                        aria-haspopup="true"
+                                        color="inherit"
+                                        className="menu-items"
+                                    >
+                                        Sign up
+                                </IconButton>
+                                </Link>
+                            </React.Fragment>}
+                        {isAuthenticate() &&
+                            <React.Fragment>
+                                <IconButton
+                                    className='mr-3'
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-controls={menuId}
+                                    aria-haspopup="true"
+                                    color="inherit"
+                                >
+                                    <Link className="menu-items" to='/history-purchase'> <History /> History purchase</Link>
+                                </IconButton>
+                                <IconButton
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-controls={menuId}
+                                    aria-haspopup="true"
+                                    onClick={handleProfileMenuOpen}
+                                    color="inherit"
+                                >
+                                    <div className="menu-items">  <AccountCircle /> Account</div>
+
+
+                                </IconButton>
+                            </React.Fragment>}
+
                     </div>
                     <div className={classes.sectionMobile}>
                         <IconButton
