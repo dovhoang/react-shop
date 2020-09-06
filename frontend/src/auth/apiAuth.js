@@ -64,12 +64,16 @@ export const isAuthenticate = () => {
 
 export const isAdmin = () => {
     if (typeof window == 'undefined') return false;
-    return !JSON.parse(localStorage.getItem('jwt')) === null;
-    return JSON.parse(localStorage.getItem('jwt')).user.role === 1;
+    if (JSON.parse(localStorage.getItem('jwt')) !== null) {
+        return JSON.parse(localStorage.getItem('jwt')).user.role === 1;
+    }
+    return false;
 };
 
 export const isUserRegister = () => {
     if (typeof window == 'undefined') return false;
-    return !JSON.parse(localStorage.getItem('jwt')) === null;
-    return JSON.parse(localStorage.getItem('jwt')).user.role === 0;
+    if (JSON.parse(localStorage.getItem('jwt')) !== null) {
+        return JSON.parse(localStorage.getItem('jwt')).user.role === 0;
+    }
+    return false;
 };

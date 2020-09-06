@@ -324,7 +324,7 @@ const TopBar = (props) => {
                             </React.Fragment>}
 
 
-                        {isAuthenticate() && isUserRegister() &&
+                        {isUserRegister() &&
                             <React.Fragment>
                                 <IconButton
                                     className='mr-3'
@@ -363,7 +363,7 @@ const TopBar = (props) => {
                                 </IconButton>
                             </React.Fragment>
                         }
-                        {isAuthenticate() && isAdmin() &&
+                        {isAdmin() &&
                             <React.Fragment>
                                 <IconButton
                                     className='mr-3'
