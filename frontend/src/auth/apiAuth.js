@@ -61,3 +61,15 @@ export const isAuthenticate = () => {
     }
     return false;
 };
+
+export const isAdmin = () => {
+    if (typeof window == 'undefined') return false;
+    return !JSON.parse(localStorage.getItem('jwt')) === null;
+    return JSON.parse(localStorage.getItem('jwt')).user.role === 1;
+};
+
+export const isUserRegister = () => {
+    if (typeof window == 'undefined') return false;
+    return !JSON.parse(localStorage.getItem('jwt')) === null;
+    return JSON.parse(localStorage.getItem('jwt')).user.role === 0;
+};

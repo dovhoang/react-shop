@@ -22,7 +22,7 @@
     cursor: pointer;
 }
 
-@media(max-width: 906px){
+@media(max-width: 1075px){
 .menu-list{
     display: none;
     }

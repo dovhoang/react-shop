@@ -69,13 +69,17 @@ export default function Home() {
     return (
         <React.Fragment>
             <CssBaseline />
-            <AppBar position="relative" color="transparent">
+            {/* <AppBar position="relative" color="transparent">
                 <Toolbar >
                     <Typography variant="h6" color="white" noWrap>
-                        Home page
-                </Typography>
+                        <ul>
+                            <li>
+
+                            </li>
+                        </ul>
+                    </Typography>
                 </Toolbar>
-            </AppBar>
+            </AppBar> */}
             <main>
                 {/* Hero unit */}
                 <h3 className="title-top5">
