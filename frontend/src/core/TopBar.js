@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -19,11 +19,13 @@ import ShoppingCart from '@material-ui/icons/ShoppingCart';
 import AddCircleOutline from '@material-ui/icons/AddCircleOutline';
 import CategoryOutlined from '@material-ui/icons/CategoryOutlined';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { Button } from '@material-ui/core';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import { signout, isAuthenticate, isUserRegister, isAdmin } from '../auth/apiAuth'
+import { getCategories } from '../admin/apiAdmin'
 
 
 import { Link, withRouter } from 'react-router-dom'
@@ -94,6 +96,13 @@ const useStyles = makeStyles((theme) => ({
             display: 'none',
         },
     },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
+    },
+    selectEmpty: {
+        marginTop: theme.spacing(2),
+    },
 }));
 
 
@@ -130,6 +139,25 @@ const TopBar = (props) => {
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
+    // const [categories, setCategories] = useState([]);
+    // const [error, setError] = useState('');
+
+    // const handleChange = (event) => {
+    //     setCategories(event.target.value);
+    // };
+
+    // const loadCategories = () => {
+    //     getCategories().then(data => {
+    //         if (data.error) {
+    //             setError(data.error);
+    //         } else {
+    //             setError('');
+    //             setCategories(data);
+    //         }
+    //     })
+    // }
+
+    // useEffect(() => loadCategories(), [categories]);
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -334,7 +362,7 @@ const TopBar = (props) => {
                                     aria-haspopup="true"
                                     color="inherit"
                                 >
-                                    <Link className="menu-items" to='/cart'>
+                                    <Link className={isActive(props.history, '/cart')} to='/cart'>
                                         <ShoppingCart /> Cart</Link>
                                 </IconButton>
                                 <IconButton
@@ -373,8 +401,8 @@ const TopBar = (props) => {
                                     aria-haspopup="true"
                                     color="inherit"
                                 >
-                                    <Link className="menu-items" to='/create/category'>
-                                        <CategoryOutlined /> Create category</Link>
+                                    <Link className={isActive(props.history, '/create/category')} to='/create/category'>
+                                        <CategoryOutlined /> Category management</Link>
                                 </IconButton>
                                 <IconButton
                                     className='mr-3'

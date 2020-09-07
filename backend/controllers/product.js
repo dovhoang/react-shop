@@ -61,7 +61,7 @@ exports.create = (req, res) => {
             if (err) {
                 console.log('PRODUCT CREATE ERROR ', err);
                 return res.status(400).json({
-                    error: errorHandler(err)
+                    error: "not save product"
                 });
             }
             res.json(result);
