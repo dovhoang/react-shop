@@ -52,19 +52,19 @@ const CreateProduct = () => {
                 });
             }
         })
-    }, [])
+    }, [createdProduct])
 
     const handleChange = name => event => {
         const value = name === 'photo' ? event.target.files[0] : event.target.value;
+
         formData.set(name, value);
-        console.log(formData);
+
         setValues({ ...values, [name]: value });
     }
 
     const clickSubmit = (e) => {
         e.preventDefault();
         setValues({ ...values, loading: true, error: '' })
-        console.log('hello');
         createProduct(formData, user._id, token).then(data => {
             if (data.error) {
                 setValues({ ...values, error: data.error });
@@ -79,6 +79,7 @@ const CreateProduct = () => {
                     photo: '',
                     loading: false,
                     error: '',
+                    formData: new FormData(),
                     createdProduct: data.name
                 })
             }
@@ -86,7 +87,7 @@ const CreateProduct = () => {
     }
 
     const PostForm = () => (
-        <form onSubmit={clickSubmit}>
+        <form onSubmit={clickSubmit} >
             <div className="form-row">
                 <div className="form-group col-md-8">
                     <label for="name">Product name</label>
@@ -129,6 +130,7 @@ const CreateProduct = () => {
                         className="form-control"
                         onChange={handleChange('category')}
                     >
+                        <option>--Please select--</option>
                         {categories && categories.map((c, i) => (
                             <option key={i} value={c._id}>
                                 {c.name}
@@ -143,9 +145,9 @@ const CreateProduct = () => {
                         className="form-control"
                         onChange={handleChange('shipping')}
                     >
-                        <option>--Please select--</option>
-                        <option value={1} selected>Yes</option>
-                        <option value={2}>No</option>
+                        <option selected>--Please select--</option>
+                        <option value={0} >Yes</option>
+                        <option value={1}>No</option>
                     </select>
                 </div>
             </div>
@@ -171,9 +173,31 @@ const CreateProduct = () => {
 
                 </div>
             </div>
-            <button className="btn btn-primary element-center" >Create</button>
+            <div className='element-center mt-3'>
+                <button type='submit' className="btn btn-primary " >Create</button>
+
+            </div>
         </form>
     );
+
+    const showError = () => (
+        <div className="alert alert-danger mt-3" style={{ display: error ? '' : 'none' }}>
+            {error}
+        </div>
+    );
+
+    const showSuccess = () => (
+        <div className="alert alert-info mt-3" style={{ display: createdProduct ? '' : 'none' }}>
+            {`${createdProduct}`} is created!
+        </div>
+    );
+
+    const showLoading = () =>
+        loading && (
+            <div className="alert alert-success mt-3">
+                Loading...
+            </div>
+        );
 
     return (
         <div className="card col-md-8 offset-md-2 mt-5 ">
@@ -182,6 +206,9 @@ const CreateProduct = () => {
             </div>
             <div class="card-body">
                 {PostForm()}
+                {showError()}
+                {showLoading()}
+                {showSuccess()}
             </div>
 
         </div>

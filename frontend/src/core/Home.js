@@ -99,6 +99,12 @@ export default function Home() {
         loadProductByArrival();
     }, []);
 
+    const searchResult = () => {
+        return (
+            <div></div>
+        );
+    }
+
 
     return (
         <React.Fragment>
@@ -112,7 +118,7 @@ export default function Home() {
                 </h3>
                 <Container className={classes.cardGrid} maxWidth="lg">
                     {/* End hero unit */}
-                    <Grid container spacing={2}>
+                    <Grid container spacing={4}>
                         {productByArrival.map((product, i) => (
                             <CCard key={i} product={product} />
                         ))}
@@ -124,7 +130,7 @@ export default function Home() {
                     <hr />
                 </h3>
                 <Container className={classes.cardGrid} maxWidth="lg">
-                    <Grid container spacing={2}>
+                    <Grid container spacing={4}>
                         {productByArrival.map((product, i) => (
                             <CCard key={i} product={product} />
                         ))}
@@ -134,10 +140,10 @@ export default function Home() {
             {/* Footer */}
             <footer className={classes.footer}>
                 <Typography variant="h6" align="center" gutterBottom>
-                    Footer
+                    Book Store
         </Typography>
                 <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-                    Something here to give the footer a purpose!
+                    Project for studying ReactJS!
         </Typography>
                 <Copyright />
             </footer>

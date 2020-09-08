@@ -33,11 +33,11 @@ const CCard = ({ product }) => {
         <Card className={classes.card}>
             <ShowImage item={product} url='product' />
             <CardContent className={classes.cardContent}>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography gutterBottom component="h2">
                     {product.name}
                 </Typography>
                 <Typography>
-                    {product.price}
+                    Price: {product.price} $
                 </Typography>
             </CardContent>
             <CardActions>

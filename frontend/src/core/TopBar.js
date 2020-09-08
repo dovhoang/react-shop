@@ -4,12 +4,13 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
+
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import InputBase from '@material-ui/core/InputBase';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import History from '@material-ui/icons/History';
 import ExitToApp from '@material-ui/icons/ExitToApp';
@@ -26,6 +27,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { signout, isAuthenticate, isUserRegister, isAdmin } from '../auth/apiAuth'
 import { getCategories } from '../admin/apiAdmin'
+import Search from './Search'
 
 
 import { Link, withRouter } from 'react-router-dom'
@@ -307,19 +309,8 @@ const TopBar = (props) => {
                     >
                         <Link to='/' className='menu-items'><Home /> Home</Link>
                     </IconButton>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
-                        </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </div>
+                    <Search />
+
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
                         {!isAuthenticate() &&
