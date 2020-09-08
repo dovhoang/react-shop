@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import CameraIcon from '@material-ui/icons/PhotoCamera';
@@ -13,6 +13,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
+import { getProducts } from './apiCore'
+import ShowImage from '../core/ShowImage'
+import CCard from './Card'
 
 import './Home.css'
 
@@ -65,57 +68,65 @@ const cards = [1, 2, 3, 4];
 
 export default function Home() {
     const classes = useStyles();
+    const [productBySell, setProductBySell] = useState([]);
+    const [productByArrival, setProductByArrival] = useState([]);
+    const [error, setError] = useState();
+
+    const loadProductBySell = () => {
+        getProducts('sold').then(data => {
+            if (data.error) {
+                setError(data.error);
+            } else {
+                setError('');
+                setProductBySell(data);
+            }
+        })
+    }
+
+    const loadProductByArrival = () => {
+        getProducts('createdAt').then(data => {
+            if (data.error) {
+                setError(data.error);
+            } else {
+                setError('');
+                setProductByArrival(data);
+            }
+        })
+    }
+
+    useEffect(() => {
+        loadProductBySell();
+        loadProductByArrival();
+    }, []);
+
 
     return (
         <React.Fragment>
             <CssBaseline />
-            {/* <AppBar position="relative" color="transparent">
-                <Toolbar >
-                    <Typography variant="h6" color="white" noWrap>
-                        <ul>
-                            <li>
-
-                            </li>
-                        </ul>
-                    </Typography>
-                </Toolbar>
-            </AppBar> */}
             <main>
                 {/* Hero unit */}
                 <h3 className="title-top5">
                     <i className="fa fa-fire" aria-hidden="true"></i>
-                       New interval
+                       New arrival
                     <hr />
                 </h3>
                 <Container className={classes.cardGrid} maxWidth="lg">
                     {/* End hero unit */}
                     <Grid container spacing={2}>
-                        {cards.map((card) => (
-                            <Grid item key={card} xs={6} sm={4} md={3}>
-                                <Card className={classes.card}>
-                                    <CardMedia
-                                        className={classes.cardMedia}
-                                        image={process.env.PUBLIC_URL + '/logo512.png'}
-                                        title="Image title"
-                                    />
-                                    <CardContent className={classes.cardContent}>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            Heading
-                                        </Typography>
-                                        <Typography>
-                                            This is a media card. You can use this section to describe the content.
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button size="small" color="primary">
-                                            View
-                                        </Button>
-                                        <Button size="small" color="primary">
-                                            Edit
-                                        </Button>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
+                        {productByArrival.map((product, i) => (
+                            <CCard key={i} product={product} />
+                        ))}
+                    </Grid>
+                </Container>
+                <h3 className="title-top5">
+                    <i className="fa fa-fire" aria-hidden="true"></i>
+                       Most popular
+                    <hr />
+                </h3>
+                <Container className={classes.cardGrid} maxWidth="lg">
+                    <Grid container spacing={2}>
+                        {productByArrival.map((product, i) => (
+                            <CCard key={i} product={product} />
                         ))}
                     </Grid>
                 </Container>
