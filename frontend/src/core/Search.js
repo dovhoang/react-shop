@@ -119,10 +119,10 @@ const Search = (props) => {
 
     return (
         <div className='d-flex d-row'>
-            <div className='d-flex d-row'>
-                <span className='mt-2 mr-2'>Categories</span>
-                <select className='bg-blue' onChange={handleChange('category')}>
-                    <option>-- All --</option>
+            <div className='d-flex d-row align-items-center'>
+                <span className='mr-2'>Categories</span>
+                <select className='bg-blue' style={{ height: '100%' }} onChange={handleChange('category')}>
+                    <option>All</option>
                     {categories.map((cate, i) => (
                         <option key={i} value={cate._id}>
                             {cate.name}

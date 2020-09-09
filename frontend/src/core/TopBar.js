@@ -28,6 +28,7 @@ import Select from '@material-ui/core/Select';
 import { signout, isAuthenticate, isUserRegister, isAdmin } from '../auth/apiAuth'
 import { getCategories } from '../admin/apiAdmin'
 import Search from './Search'
+import AllProduct from './AllProduct'
 
 
 import { Link, withRouter } from 'react-router-dom'
@@ -310,6 +311,16 @@ const TopBar = (props) => {
                     >
                         <Link to='/' className='menu-items'><Home /> Home</Link>
                     </IconButton>
+
+                    <IconButton
+                        edge="start"
+                        className={classes.menuButton}
+                        color="inherit"
+                        aria-label="open drawer"
+                    >
+                        <Link to='/all-products' className='menu-items'>All product</Link>
+                    </IconButton>
+
                     <Search handleSearch={props.handleSearch} />
 
                     <div className={classes.grow} />
