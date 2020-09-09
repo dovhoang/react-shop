@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
-import { getProducts } from './apiCore'
+import { getProducts, searchProduct } from './apiCore'
 import ShowImage from '../core/ShowImage'
 import CCard from './Card'
 
@@ -66,12 +66,15 @@ const useStyles = makeStyles((theme) => ({
 
 const cards = [1, 2, 3, 4];
 
-export default function Home() {
+export default function Home(props) {
+    console.log(props);
     const classes = useStyles();
     const [productBySell, setProductBySell] = useState([]);
     const [productByArrival, setProductByArrival] = useState([]);
-    const [error, setError] = useState();
-
+    const [searchResults, setSearchResults] = useState([]);
+    const [searched, setSearched] = useState(false);
+    const [error, setError] = useState('');
+    console.log(searchResults);
     const loadProductBySell = () => {
         getProducts('sold').then(data => {
             if (data.error) {
@@ -94,15 +97,40 @@ export default function Home() {
         })
     }
 
+
+    const loadSearchResult = () => {
+        setSearchResults(props.search.searchResult);
+        setSearched(props.search.searched)
+    };
+
     useEffect(() => {
         loadProductBySell();
         loadProductByArrival();
+
     }, []);
 
-    const searchResult = () => {
-        return (
-            <div></div>
-        );
+    useEffect(() => {
+        loadSearchResult();
+    }, [props.search])
+
+    const searchMessage = (result = []) => {
+        let message = '';
+        if (searched && result.length > 1) {
+            message = `Found ${result.length} products`
+        }
+        if (searched && result.length === 1) {
+            message = `Found ${result.length} product`;
+        }
+        if (searched && result.length === 0) {
+            message = 'No products found';
+        }
+
+        return (message &&
+            <h3 className="title-top5">
+                <i className="fa fa-fire" aria-hidden="true"></i>
+                {message}
+                <hr />
+            </h3>);
     }
 
 
@@ -110,6 +138,15 @@ export default function Home() {
         <React.Fragment>
             <CssBaseline />
             <main>
+                {searchMessage(searchResults)}
+                <Container className={classes.cardGrid} maxWidth="lg">
+                    {/* End hero unit */}
+                    <Grid container spacing={4}>
+                        {searchResults && searchResults.map((product, i) => (
+                            <CCard key={i} product={product} />
+                        ))}
+                    </Grid>
+                </Container>
                 {/* Hero unit */}
                 <h3 className="title-top5">
                     <i className="fa fa-fire" aria-hidden="true"></i>

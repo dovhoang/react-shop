@@ -50,14 +50,14 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const Search = () => {
+const Search = (props) => {
     const classes = useStyles();
 
     const [data, setData] = useState({
         categories: [],
         category: '',
         search: '',
-        results: [],
+        results: props.searchResult,
         result: '',
         searched: false,
         error: ''
@@ -96,12 +96,17 @@ const Search = () => {
         loadCategories();
     }, [])
 
+    const handleSearch = (value) => {
+        props.handleSearch(value);
+    }
+
     const clickSearch = (e) => {
         searchProduct({ category: category, search: search || undefined }).then(res => {
             if (res.error) {
                 setData({ ...data, error: res.error })
             } else {
-                setData({ ...data, results: res })
+                setData({ ...data, results: res, searched: true });
+                handleSearch({ results: res, searched: true });
             }
         })
     }
@@ -119,7 +124,7 @@ const Search = () => {
                 <select className='bg-blue' onChange={handleChange('category')}>
                     <option>-- All --</option>
                     {categories.map((cate, i) => (
-                        <option value={cate._id}>
+                        <option key={i} value={cate._id}>
                             {cate.name}
                         </option>
                     ))}

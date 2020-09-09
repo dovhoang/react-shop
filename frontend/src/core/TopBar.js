@@ -122,6 +122,7 @@ const TopBar = (props) => {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
+
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -309,7 +310,7 @@ const TopBar = (props) => {
                     >
                         <Link to='/' className='menu-items'><Home /> Home</Link>
                     </IconButton>
-                    <Search />
+                    <Search handleSearch={props.handleSearch} />
 
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>

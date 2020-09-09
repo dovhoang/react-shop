@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import SignIn from './user/SignIn'
 import SignUp from './user/SignUp'
@@ -11,12 +11,31 @@ import HistoryPurchase from './user/HistoryPurchase'
 import CreateCategory from './admin/CreateCategory'
 import CreateProduct from './admin/CreateProduct'
 
-function App() {
+const App = () => {
+  const [search, setSearch] = useState({
+    searchResult: [],
+    searched: false
+  });
+
+  const handleSearch = (value) => {
+    if (value) {
+      setSearch({ ...search, searched: value.searched, searchResult: value.results })
+    }
+  }
+
+  useEffect(() => {
+    handleSearch();
+  }, [])
+
   return (
     <Router>
-      <TopBar />
+      <TopBar handleSearch={handleSearch} />
       <Switch>
-        <Route path="/" exact component={Home} />
+        <Route path="/" exact
+          render={props => (
+            <Home {...props}
+              search={search}
+            />)} />
         <Route path="/signin" exact component={SignIn} />
         <Route path="/signup" exact component={SignUp} />
         <UserRoute path='/profile' exact><Profile /></UserRoute>
