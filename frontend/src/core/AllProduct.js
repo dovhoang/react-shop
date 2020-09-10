@@ -116,8 +116,6 @@ const AllProduct = () => {
         return arrayPrices;
     }
 
-    const notFound = <h3>No products found</h3>
-
     return <div className='row'>
         <div className="col-md-3">
             <CheckBox

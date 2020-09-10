@@ -256,7 +256,7 @@ const TopBar = (props) => {
 
             {isAuthenticate() && isAdmin() &&
                 <React.Fragment>
-                    <MenuItem>
+                    {/* <MenuItem>
                         <IconButton aria-label="show 4 new mails" color="inherit">
                             <Badge color="secondary">
                                 <CategoryOutlined />
@@ -271,6 +271,14 @@ const TopBar = (props) => {
                             </Badge>
                         </IconButton>
                         <p>Create product</p>
+                    </MenuItem> */}
+                    <MenuItem>
+                        <IconButton aria-label="show 4 new mails" color="inherit">
+                            <Badge color="secondary">
+                                <CategoryOutlined />
+                            </Badge>
+                        </IconButton>
+                        <p>Admin Dashboard</p>
                     </MenuItem>
                 </React.Fragment>
 
@@ -396,7 +404,7 @@ const TopBar = (props) => {
                         }
                         {isAdmin() &&
                             <React.Fragment>
-                                <IconButton
+                                {/* <IconButton
                                     className='mr-3'
                                     edge="end"
                                     aria-label="account of current user"
@@ -417,6 +425,17 @@ const TopBar = (props) => {
                                 >
                                     <Link className="menu-items" to='/create/product'>
                                         <AddCircleOutline /> Create product</Link>
+                                </IconButton> */}
+                                <IconButton
+                                    className='mr-3'
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-controls={menuId}
+                                    aria-haspopup="true"
+                                    color="inherit"
+                                >
+                                    <Link className="menu-items" to='/admin/dashboard'>
+                                        <AddCircleOutline /> Admin Dashboard</Link>
                                 </IconButton>
                                 <IconButton
                                     edge="end"
@@ -428,8 +447,6 @@ const TopBar = (props) => {
                                 >
                                     <div className="menu-items">
                                         <AccountCircle /> Account</div>
-
-
                                 </IconButton>
                             </React.Fragment>
                         }

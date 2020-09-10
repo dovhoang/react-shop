@@ -12,6 +12,8 @@ import CreateCategory from './admin/CreateCategory'
 import CreateProduct from './admin/CreateProduct'
 import AllProduct from './core/AllProduct'
 import SingleProduct from './core/SingleProduct'
+import AdminDashboard from './admin/AdminDashboard'
+import Cart from './core/Cart'
 
 const App = () => {
   const [search, setSearch] = useState({
@@ -40,12 +42,14 @@ const App = () => {
             />)} />
         <Route path="/signin" exact component={SignIn} />
         <Route path="/signup" exact component={SignUp} />
+        <Route path="/cart" exact component={Cart} />
         <Route path="/all-products" exact component={AllProduct} />
         <Route path="/product/:productId" exact component={SingleProduct} />
         <UserRoute path='/profile' exact><Profile /></UserRoute>
         <UserRoute path='/history-purchase' exact><HistoryPurchase /></UserRoute>
         <AdminRoute path='/create/category' exact><CreateCategory /></AdminRoute>
         <AdminRoute path='/create/product' exact><CreateProduct /></AdminRoute>
+        <AdminRoute path='/admin/dashboard' exact><AdminDashboard /></AdminRoute>
       </Switch>
     </Router>
   );
