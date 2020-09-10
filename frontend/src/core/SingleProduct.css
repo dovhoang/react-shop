@@ -1,0 +1,38 @@
+.name{
+    color: blue;
+    font-weight: bold;
+}
+
+.price, .sold , .quantity, .description{
+    font-size: 20px;
+    font-weight:bold
+}
+.price span{
+     color: red;
+    font-weight: normal;
+    font-size: 40px;
+}
+
+.sold span, .quantity span{
+    color: blue;
+    font-weight: normal;
+}
+
+.description-content{
+text-align: justify;
+}
+
+.delivery-available{
+    color: green;
+}
+
+.delivery-unavailable{
+    color: red;
+}
+
+.category{
+    background-color: blue;
+    color: white;
+    padding: 2px 10px;
+    border-radius: 20px;
+}

@@ -116,6 +116,8 @@ const AllProduct = () => {
         return arrayPrices;
     }
 
+    const notFound = <h3>No products found</h3>
+
     return <div className='row'>
         <div className="col-md-3">
             <CheckBox
@@ -128,6 +130,7 @@ const AllProduct = () => {
                     handleFilter(filters, 'price')} />
         </div>
         <div className="col-md-9">
+            {!filteredResult.length && <h3 className='element-center mt-5'>No product found</h3>}
             <Container className={classes.cardGrid} maxWidth="lg">
                 {/* End hero unit */}
                 <Grid container spacing={4}>

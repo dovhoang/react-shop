@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-const CCard = ({ product }) => {
+const CCard = ({ product, onClick }) => {
 
     const classes = useStyles();
 
@@ -42,9 +42,9 @@ const CCard = ({ product }) => {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Link to={`product/${product._id}`}>
+                <Link to={`/product/${product._id}`}>
 
-                    <Button size="small" color="primary">
+                    <Button size="small" color="primary" onClick={onClick}>
                         View Product
                 </Button>
                 </Link>

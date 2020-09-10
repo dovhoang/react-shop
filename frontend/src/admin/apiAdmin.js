@@ -35,6 +35,14 @@ export const createProduct = (product, userId, token) => (
         })
 )
 
+export const getCategoryById = (id) => (
+    fetch(`${API}/category/${id}`, {
+        method: 'GET',
+    })
+        .then(response => (response.json()))
+        .catch(error => { console.log(error) })
+)
+
 export const getCategories = () => (
     fetch(`${API}/categories`, {
         method: 'GET',
@@ -42,3 +50,4 @@ export const getCategories = () => (
         .then(response => (response.json()))
         .catch(error => { console.log(error) })
 )
+
