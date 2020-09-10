@@ -1,11 +1,11 @@
 import React from 'react'
 import { API } from '../config'
 
-const ShowImage = ({ item, url }) => {
+const ShowImage = ({ item, url, height }) => {
     return <img
         src={`${API}/${url}/photo/${item._id}`}
         alt={item.name}
-        style={{ height: '300px' }}
+        style={{ height: `${height}px` }}
     />
 };
 

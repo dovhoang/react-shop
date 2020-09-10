@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -31,7 +32,7 @@ const CCard = ({ product }) => {
 
     return <Grid item xs={6} sm={4} md={3}>
         <Card className={classes.card}>
-            <ShowImage item={product} url='product' />
+            <ShowImage item={product} url='product' height={300} />
             <CardContent className={classes.cardContent}>
                 <Typography gutterBottom component="h2">
                     {product.name}
@@ -41,9 +42,12 @@ const CCard = ({ product }) => {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small" color="primary">
-                    View Product
+                <Link to={`product/${product._id}`}>
+
+                    <Button size="small" color="primary">
+                        View Product
                 </Button>
+                </Link>
                 <Button size="small" color="primary">
                     Add To Cart
                 </Button>
