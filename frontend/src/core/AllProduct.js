@@ -9,6 +9,7 @@ import CCard from './Card'
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import { Button } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +28,8 @@ const AllProduct = () => {
     })
 
     const [skip, setSkip] = useState(0);
-    const [limit, setLimit] = useState(8);
+    const [limit, setLimit] = useState(4);
+    const [size, setSize] = useState(0);
     const [error, setError] = useState('');
     const [filteredResult, setFilteredResult] = useState([]);
 
@@ -46,20 +48,47 @@ const AllProduct = () => {
 
 
     const loadFilterResults = (skip, limit, filters) => {
-        console.log(filters);
+        console.log('load filter');
         getFilteredProducts(skip, limit, filters).then(data => {
             if (data.error) {
                 setError(data.error);
             } else {
+                setFilteredResult([])
                 setFilteredResult(data.data);
+                setSize(data.size);
+                setSkip(0);
             }
         })
     }
 
+    const loadMore = () => {
+        const newSkip = skip + limit;// load product at positon newSkip to newSkip+limit
+        getFilteredProducts(newSkip, limit, myFilter.filters).then(data => {
+            if (data.error) {
+                setError(data.error);
+            } else {
+                setFilteredResult([...filteredResult, ...data.data]);
+                setSize(data.size);
+                setSkip(newSkip);
+            }
+        })
+    }
+
+    const loadMoreButton = () => (
+        size > 0 && size >= limit &&
+        <button
+            className='btn btn-info mb-3'
+            onClick={loadMore}>
+            More...
+        </button>
+    );
+
     useEffect(() => {
         loadCategories();
-        loadFilterResults(skip, limit, myFilter)
+        loadFilterResults(skip, limit, myFilter);
     }, [])
+
+
 
     const handleFilter = (filters, filterBy) => {
         const newFilter = { ...myFilter };
@@ -70,7 +99,7 @@ const AllProduct = () => {
             let priceValues = handlePrice(filters);
             newFilter.filters[filterBy] = priceValues;
         }
-        loadFilterResults(skip, limit, myFilter.filters);
+        loadFilterResults(0, limit, myFilter.filters);//skip=0
         setMyFilter(newFilter);
     }
 
@@ -107,7 +136,7 @@ const AllProduct = () => {
                     ))}
                 </Grid>
             </Container>
-
+            {loadMoreButton()}
 
 
 
