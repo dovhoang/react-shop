@@ -28,10 +28,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CCard = ({ product,
+    md = 3,
     onClick,
     showAddToCart = true,
     showCartUpdate = false,
-    showRemove = false }) => {
+    showRemove = false,
+    run = 'undefined',
+    setRun = f => f }) => {
 
     const classes = useStyles();
     const [redirect, setRedirect] = useState(false);
@@ -50,6 +53,7 @@ const CCard = ({ product,
     }
 
     const handleChange = (e) => {
+        setRun(!run)
         setCount(e.target.value < 1 ? 1 : e.target.value);
         if (e.target.value > 1) {
             updateItem(product._id, e.target.value)
@@ -71,22 +75,26 @@ const CCard = ({ product,
     const showRemoveProductInCart = () => {
         return (showRemove &&
             <Button size="small" color="danger"
-                onClick={removeProductInCart}>
+                onClick={() => {
+                    removeItem(product._id);
+                    setRun(!run);
+                }}>
                 Delete
             </Button>
         );
     }
 
-    const removeProductInCart = () => {
-        removeItem(product._id);
-    }
 
-    return <Grid item xs={6} sm={4} md={3}>
+
+    return <Grid item xs={6} sm={4} md={md}>
         <Card className={classes.card}>
             <ShowImage item={product} url='product' height={300} />
             <CardContent className={classes.cardContent}>
-                <Typography gutterBottom component="h2">
-                    {product.name}
+                <Typography gutterBottom component="h2" >
+                    <div style={{ height: '50px', fontWeight: 'bold' }}>
+                        {product.name}
+                    </div>
+
                 </Typography>
                 <Typography>
                     Price: {product.price} $

@@ -133,7 +133,7 @@ const AllProduct = () => {
                 {/* End hero unit */}
                 <Grid container spacing={4}>
                     {filteredResult.map(product => (
-                        <CCard key={product._id} product={product} />
+                        <CCard key={product._id} product={product} md={4} />
                     ))}
                 </Grid>
             </Container>

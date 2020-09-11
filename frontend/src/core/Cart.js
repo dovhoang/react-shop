@@ -4,6 +4,8 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { totalCart, getCart } from './cartHelper'
+import Checkout from './Checkout'
+import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
 
 const useStyles = makeStyles((theme) => ({
     cardGrid: {
@@ -12,32 +14,64 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+
 const Cart = () => {
 
     const classes = useStyles();
     const [products, setProducts] = useState([]);
+    const [run, setRun] = useState(false);
 
     useEffect(() => {
         setProducts(getCart());
-    }, [getCart])
-    return (
-        <div>
+        totalPrice();
+        console.log(totalPrice());
+    }, [run])
+
+    const totalPrice = () => {
+        var total = 0;
+        products.map(p => {
+            total = total + p.count * p.price;
+        })
+        return total;
+    }
+
+    const showContinueShopping = () => {
+        console.log('continue')
+        return <div className='element-center' style={{ marginTop: '200px' }}>
             <div>
-                Total: {totalCart()}
+                <RemoveShoppingCartIcon style={{ fontSize: '100px' }} />
             </div>
-            <Container className={classes.cardGrid} maxWidth="lg">
-                {/* End hero unit */}
-                <Grid container spacing={4}>
-                    {products.map((product, i) => (
-                        <CCard key={i}
-                            product={product}
-                            showAddToCart={false}
-                            showCartUpdate={true}
-                            showRemove={true}
-                        />
-                    ))}
-                </Grid>
-            </Container>
+            <div element-center><h4>Cart empty</h4> Continue to shopping !!!</div>
+        </div>
+    }
+
+
+    return (
+        <div className='row'>
+            <div className='col-md-3'>
+                <Checkout products={products} />
+            </div>
+            <div className="col-md-9">
+                {products.length > 0 &&
+                    <Container className={classes.cardGrid} maxWidth="lg">
+                        {/* End hero unit */}
+                        <Grid container spacing={4}>
+                            {products.map((product, i) => (
+                                <CCard key={i}
+                                    product={product}
+                                    showAddToCart={false}
+                                    showCartUpdate={true}
+                                    showRemove={true}
+                                    run={run}
+                                    setRun={setRun}
+                                    md={4}
+                                />
+                            ))}
+                        </Grid>
+                    </Container>
+                }
+                {products.length === 0 && showContinueShopping()}
+            </div>
 
         </div>
     );

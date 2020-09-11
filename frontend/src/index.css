@@ -1,5 +1,14 @@
 .element-center{
     display: flex;
+    
     justify-content: center;
     align-items: center;
+}
+
+.card-body-custom .card-body-custom h6{
+    padding: 0 !important;
+}
+
+.cart-summary-price span{
+    color: red;
 }

@@ -377,17 +377,6 @@ const TopBar = (props) => {
                                         <ShoppingCart /> Cart</Link>
                                 </IconButton>
                                 <IconButton
-                                    className='mr-3'
-                                    edge="end"
-                                    aria-label="account of current user"
-                                    aria-controls={menuId}
-                                    aria-haspopup="true"
-                                    color="inherit"
-                                >
-                                    <Link className="menu-items" to='/history-purchase'>
-                                        <History /> History purchase</Link>
-                                </IconButton>
-                                <IconButton
                                     edge="end"
                                     aria-label="account of current user"
                                     aria-controls={menuId}
