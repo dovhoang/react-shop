@@ -205,10 +205,10 @@ const CreateProduct = () => {
                 Create product
             </div>
             <div class="card-body">
+                {showSuccess()}
                 {PostForm()}
                 {showError()}
                 {showLoading()}
-                {showSuccess()}
             </div>
 
         </div>

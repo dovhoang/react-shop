@@ -9,13 +9,14 @@ import CategoryItem from './CategoryItem';
 const CategoriesList = () => {
     const [name, setName] = useState('');
     const [error, setError] = useState('');
-    const [success, setSuccess] = useState(false);
+    const [created, setCreated] = useState(false);
 
     const [categories, setCatetgories] = useState([]);
     const [errorLoadCat, setErrorLoadCat] = useState('');
 
 
     const loadCategories = () => {
+        setCreated(false);
         getCategories().then(data => {
             if (data.error) {
                 setErrorLoadCat(data.error);
@@ -26,12 +27,12 @@ const CategoriesList = () => {
         })
     }
 
-    useEffect(() => loadCategories(), [])
+    useEffect(() => loadCategories(), [created])
 
     return (
         <div className='row mt-3'>
             <div className="div col-md-3">
-                <CreateCategory />
+                <CreateCategory setCreated={setCreated} />
             </div>
             <div className="col-md-9">
                 <table class="table">
@@ -46,7 +47,7 @@ const CategoriesList = () => {
                     <tbody>
 
                         {categories.map((cate, i) => {
-                            return <CategoryItem key={i + 1} key={cate._id} item={cate} />
+                            return <CategoryItem key={i} item={cate} />
                         })}
 
                     </tbody>

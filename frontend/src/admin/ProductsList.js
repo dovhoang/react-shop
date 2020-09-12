@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import ProductItem from './ProductItem'
-import { getProducts } from './apiAdmin'
+import { getProducts, deleteProduct } from './apiAdmin'
+import { isAuthenticate } from '../auth/apiAuth'
 
 const ProductList = () => {
     const [products, setProducts] = useState([]);
@@ -19,6 +20,19 @@ const ProductList = () => {
     useEffect(() => {
         loadProducts();
     }, [])
+
+
+    const { user, token } = isAuthenticate();
+
+    const deleteItem = (productId) => {
+        deleteProduct(productId, user._id, token).then(data => {
+            if (data.error) {
+                setError(data.error)
+            } else {
+                loadProducts();
+            }
+        })
+    }
 
 
     return (
@@ -41,7 +55,7 @@ const ProductList = () => {
                 </thead>
                 <tbody>
                     {products.map((product, i) => (
-                        <ProductItem key={i} item={product} />
+                        <ProductItem key={i} item={product} deleteItem={deleteItem} />
                     ))}
                 </tbody>
             </table>

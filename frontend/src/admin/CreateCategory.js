@@ -4,7 +4,7 @@ import { isAuthenticate } from '../auth/apiAuth';
 import '../index.css'
 
 
-const CreateCategory = () => {
+const CreateCategory = ({ setCreated }) => {
     const [name, setName] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
@@ -26,6 +26,7 @@ const CreateCategory = () => {
                 setName('')
                 setError('');
                 setSuccess(true);
+                setCreated(true)
             }
         })
     }
