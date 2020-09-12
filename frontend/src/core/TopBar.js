@@ -143,25 +143,9 @@ const TopBar = (props) => {
     const handleMobileMenuOpen = (event) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
-    // const [categories, setCategories] = useState([]);
-    // const [error, setError] = useState('');
-
-    // const handleChange = (event) => {
-    //     setCategories(event.target.value);
-    // };
-
-    // const loadCategories = () => {
-    //     getCategories().then(data => {
-    //         if (data.error) {
-    //             setError(data.error);
-    //         } else {
-    //             setError('');
-    //             setCategories(data);
-    //         }
-    //     })
-    // }
-
-    // useEffect(() => loadCategories(), [categories]);
+    const signOut = () => signout(() => {
+        props.history.push("/");
+    })
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -181,9 +165,7 @@ const TopBar = (props) => {
             </MenuItem>
             <MenuItem onClick={handleMenuClose}>
                 <span className='nav-link sub-menu'
-                    onClick={() => signout(() => {
-                        props.history.push("/");
-                    })}
+                    onClick={signOut}
                 >Sign out
                 </span>
             </MenuItem>
@@ -222,16 +204,6 @@ const TopBar = (props) => {
                     </MenuItem>
                 </React.Fragment>
             }
-            {isAuthenticate() &&
-                <MenuItem>
-                    <IconButton aria-label="show 4 new mails" color="inherit">
-                        <Badge color="secondary">
-                            <AccountCircle />
-                        </Badge>
-                    </IconButton>
-                    <p>Account</p>
-                </MenuItem>
-            }
 
             {isAuthenticate() && isUserRegister() &&
                 <React.Fragment>
@@ -251,18 +223,26 @@ const TopBar = (props) => {
                         </IconButton>
                         <p>History purchse</p>
                     </MenuItem>
+                    <MenuItem>
+                        <IconButton aria-label="show 4 new mails" color="inherit">
+                            <Badge color="secondary">
+                                <AccountCircle />
+                            </Badge>
+                        </IconButton>
+                        <p>Account</p>
+                    </MenuItem>
                 </React.Fragment>
             }
 
             {isAuthenticate() && isAdmin() &&
                 <React.Fragment>
-                    {/* <MenuItem>
+                    <MenuItem>
                         <IconButton aria-label="show 4 new mails" color="inherit">
                             <Badge color="secondary">
                                 <CategoryOutlined />
                             </Badge>
                         </IconButton>
-                        <p>Create category</p>
+                        <p>Categories management</p>
                     </MenuItem>
                     <MenuItem>
                         <IconButton aria-label="show 4 new mails" color="inherit">
@@ -270,15 +250,15 @@ const TopBar = (props) => {
                                 <AddCircleOutline />
                             </Badge>
                         </IconButton>
-                        <p>Create product</p>
-                    </MenuItem> */}
+                        <p>Products management</p>
+                    </MenuItem>
                     <MenuItem>
                         <IconButton aria-label="show 4 new mails" color="inherit">
                             <Badge color="secondary">
                                 <CategoryOutlined />
                             </Badge>
                         </IconButton>
-                        <p>Admin Dashboard</p>
+                        <p>Sign out</p>
                     </MenuItem>
                 </React.Fragment>
 
@@ -294,9 +274,7 @@ const TopBar = (props) => {
                         <ExitToApp />
                     </IconButton>
                     <span className='nav-link sub-menu'
-                        onClick={() => signout(() => {
-                            props.history.push("/");
-                        })}
+                        onClick={signOut}
                     >Sign out
                 </span>
                 </MenuItem>
@@ -393,7 +371,7 @@ const TopBar = (props) => {
                         }
                         {isAdmin() &&
                             <React.Fragment>
-                                {/* <IconButton
+                                <IconButton
                                     className='mr-3'
                                     edge="end"
                                     aria-label="account of current user"
@@ -401,8 +379,8 @@ const TopBar = (props) => {
                                     aria-haspopup="true"
                                     color="inherit"
                                 >
-                                    <Link className={isActive(props.history, '/create/category')} to='/create/category'>
-                                        <CategoryOutlined /> Category management</Link>
+                                    <Link className={isActive(props.history, '/admin/category')} to='/admin/category'>
+                                        <CategoryOutlined /> Categories</Link>
                                 </IconButton>
                                 <IconButton
                                     className='mr-3'
@@ -412,30 +390,20 @@ const TopBar = (props) => {
                                     aria-haspopup="true"
                                     color="inherit"
                                 >
-                                    <Link className="menu-items" to='/create/product'>
-                                        <AddCircleOutline /> Create product</Link>
-                                </IconButton> */}
+                                    <Link className="menu-items" to='/admin/product'>
+                                        <AddCircleOutline /> Products</Link>
+                                </IconButton>
                                 <IconButton
                                     className='mr-3'
                                     edge="end"
                                     aria-label="account of current user"
-                                    aria-controls={menuId}
                                     aria-haspopup="true"
                                     color="inherit"
+                                    onClick={signOut}
                                 >
-                                    <Link className="menu-items" to='/admin/dashboard'>
-                                        <AddCircleOutline /> Admin Dashboard</Link>
-                                </IconButton>
-                                <IconButton
-                                    edge="end"
-                                    aria-label="account of current user"
-                                    aria-controls={menuId}
-                                    aria-haspopup="true"
-                                    onClick={handleProfileMenuOpen}
-                                    color="inherit"
-                                >
-                                    <div className="menu-items">
-                                        <AccountCircle /> Account</div>
+                                    <Link className="menu-items">
+                                        <ExitToApp /> Sign out
+                                    </Link>
                                 </IconButton>
                             </React.Fragment>
                         }

@@ -8,12 +8,14 @@ import UserRoute from './auth/UserRoute'
 import AdminRoute from './auth/AdminRoute'
 import Profile from './user/Profile'
 import HistoryPurchase from './user/HistoryPurchase'
-import CreateCategory from './admin/CreateCategory'
-import CreateProduct from './admin/CreateProduct'
 import AllProduct from './core/AllProduct'
 import SingleProduct from './core/SingleProduct'
-import AdminDashboard from './admin/AdminDashboard'
+import ProductsList from './admin/ProductsList'
+import CategoriesList from './admin/CategoriesList'
+import CreateProduct from './admin/CreateProduct'
 import Cart from './core/Cart'
+import UpdateCategory from './admin/UpdateCategory';
+import UpdateProduct from './admin/UpdateProduct';
 
 const App = () => {
   const [search, setSearch] = useState({
@@ -47,9 +49,11 @@ const App = () => {
         <Route path="/product/:productId" exact component={SingleProduct} />
         <UserRoute path='/profile' exact><Profile /></UserRoute>
         <UserRoute path='/history-purchase' exact><HistoryPurchase /></UserRoute>
-        <AdminRoute path='/create/category' exact><CreateCategory /></AdminRoute>
+        <AdminRoute path='/admin/category' exact><CategoriesList /></AdminRoute>
+        <AdminRoute path='/admin/product' exact><ProductsList /></AdminRoute>
         <AdminRoute path='/create/product' exact><CreateProduct /></AdminRoute>
-        <AdminRoute path='/admin/dashboard' exact><AdminDashboard /></AdminRoute>
+        <AdminRoute path='/update/category/:categoryId' component={UpdateCategory} exact ><UpdateCategory /></AdminRoute>
+        <AdminRoute path='/update/product/:productId' component={UpdateProduct} exact ><UpdateProduct /></AdminRoute>
       </Switch>
     </Router>
   );
