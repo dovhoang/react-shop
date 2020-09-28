@@ -124,6 +124,7 @@ const TopBar = (props) => {
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
 
+    const [userId, setUserId] = useState('')
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -353,6 +354,19 @@ const TopBar = (props) => {
                                 >
                                     <Link className={isActive(props.history, '/cart')} to='/cart'>
                                         <ShoppingCart /> Cart</Link>
+                                </IconButton>
+                                <IconButton
+                                    className='mr-3'
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-controls={menuId}
+                                    aria-haspopup="true"
+                                    color="inherit"
+                                >
+                                    <Link
+                                        className={isActive(props.history, `/${props.userId}/history-purchase`)}
+                                        to={`/${props.userId}/history-purchase`}>
+                                        <History /> History Purchase</Link>
                                 </IconButton>
                                 <IconButton
                                     edge="end"

@@ -28,7 +28,7 @@ const AllProduct = () => {
     })
 
     const [skip, setSkip] = useState(0);
-    const [limit, setLimit] = useState(4);
+    const [limit, setLimit] = useState(6);
     const [size, setSize] = useState(0);
     const [error, setError] = useState('');
     const [filteredResult, setFilteredResult] = useState([]);

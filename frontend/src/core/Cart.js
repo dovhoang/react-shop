@@ -36,7 +36,6 @@ const Cart = () => {
     }
 
     const showContinueShopping = () => {
-        console.log('continue')
         return <div className='element-center' style={{ marginTop: '200px' }}>
             <div>
                 <RemoveShoppingCartIcon style={{ fontSize: '100px' }} />
@@ -47,32 +46,38 @@ const Cart = () => {
 
 
     return (
-        <div className='row'>
-            <div className='col-md-3'>
-                <Checkout products={products} />
-            </div>
-            <div className="col-md-9">
-                {products.length > 0 &&
-                    <Container className={classes.cardGrid} maxWidth="lg">
-                        {/* End hero unit */}
-                        <Grid container spacing={4}>
-                            {products.map((product, i) => (
-                                <CCard key={i}
-                                    product={product}
-                                    showAddToCart={false}
-                                    showCartUpdate={true}
-                                    showRemove={true}
-                                    run={run}
-                                    setRun={setRun}
-                                    md={4}
-                                />
-                            ))}
-                        </Grid>
-                    </Container>
-                }
-                {products.length === 0 && showContinueShopping()}
-            </div>
-
+        <div className='container-fluid'>
+            {products.length === 0 &&
+                <div className='element-center'>
+                    {showContinueShopping()}
+                </div>}
+            {products.length !== 0 &&
+                <div className='row'>
+                    <div className='col-md-3'>
+                        <Checkout products={products}
+                            run={run}
+                            setRun={setRun} />
+                    </div>
+                    <div className="col-md-9">
+                        <Container className={classes.cardGrid} maxWidth="lg">
+                            {/* End hero unit */}
+                            <Grid container spacing={4}>
+                                {products.map((product, i) => (
+                                    <CCard key={i}
+                                        product={product}
+                                        showAddToCart={false}
+                                        showCartUpdate={true}
+                                        showRemove={true}
+                                        run={run}
+                                        setRun={setRun}
+                                        md={4}
+                                    />
+                                ))}
+                            </Grid>
+                        </Container>
+                    </div>
+                </div>
+            }
         </div>
     );
 

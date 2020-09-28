@@ -27,7 +27,7 @@ export const getFilteredProducts = (skip, limit, filters = {}) => {
         limit,
         filters
     };
-    return fetch(`${API}/products/by/search`, {
+    return fetch(`${API}/products/by/search?limit=6`, {
         method: 'POST',
         headers: {
             Accept: 'application/json',
@@ -56,6 +56,22 @@ export const getSingleProduct = productId => {
 export const getRelatedProduct = productId => {
     return fetch(`${API}/products/related/${productId}`, {
         method: "GET"
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const createOrder = (userId, token, createOrderData) => {
+    return fetch(`${API}/order/create/${userId}`, {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ order: createOrderData })
     })
         .then(response => {
             return response.json();

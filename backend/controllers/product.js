@@ -129,15 +129,15 @@ exports.update = (req, res) => {
  */
 
 exports.list = (req, res) => {
-    let order = req.query.order ? req.query.order : 'asc';
+    let order = req.query.order ? req.query.order : 'desc';
     let sortBy = req.query.sortBy ? req.query.sortBy : '_id';
-    let limit = req.query.limit ? parseInt(req.query.limit) : 6;
+    let limit = req.query.limit ? parseInt(req.query.limit) : 4;
 
     Product.find()
         .select('-photo')
         .populate('category')
         .sort([[sortBy, order]])
-        //.limit(limit)
+        .limit(limit)
         .exec((err, products) => {
             if (err) {
                 return res.status(400).json({

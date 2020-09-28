@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Redirect } from 'react-router-dom'
 import { getSingleProduct, getRelatedProduct } from './apiCore'
 import ShowImage from './ShowImage'
 import '../index.css'
@@ -8,6 +9,7 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { scrollTop } from './Utils'
+import { addCartItem } from './cartHelper'
 
 const useStyles = makeStyles((theme) => ({
     cardGrid: {
@@ -23,6 +25,7 @@ const SingleProduct = (props) => {
     const [product, setProduct] = useState({});
     const [relatedProduct, setRelatedProduct] = useState([]);
     const [error, setError] = useState('');
+    const [redirect, setRedirect] = useState(false);
 
 
     const loadSingleProduct = productId => {
@@ -47,7 +50,19 @@ const SingleProduct = (props) => {
         loadSingleProduct(productId)
     }, [props])
 
-    return <div className='row'>
+    const addToCartHandler = () => {
+        addCartItem(product, () => {
+            setRedirect(true);
+        })
+    }
+
+    const redirectToCart = () => {
+        if (redirect) {
+            return <Redirect to='/cart' />
+        }
+    }
+
+    return <div className='row m-2'>
         <div className='row mt-3'>
             <div className="col-md-4 element-center">
                 <ShowImage item={product} url='product' height={500} />
@@ -76,14 +91,15 @@ const SingleProduct = (props) => {
                         <div className='description mt-3'> Description: </div>
                         <div className="description-content">{product.description}</div>
                         <div className="mt-3 element-center">
-                            <button className="btn btn-outline-primary">Add to card</button>
+                            <button className="btn btn-outline-primary"
+                                onClick={addToCartHandler}>Add to card</button>
                         </div>
                     </div>
                 </div>
             </div>
-
+            {redirectToCart()}
         </div>
-        <div className="row" style={{ display: relatedProduct ? '' : 'none' }}>
+        <div className="row m-2" style={{ display: relatedProduct ? '' : 'none' }}>
             <h3 className="title-top5">
                 <i className="fa fa-fire" aria-hidden="true"></i>
                        Related product

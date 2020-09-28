@@ -1,6 +1,5 @@
 .element-center{
     display: flex;
-    
     justify-content: center;
     align-items: center;
 }
@@ -11,4 +10,8 @@
 
 .cart-summary-price span{
     color: red;
+}
+
+.ul-custom{
+   list-style-type: none;
 }

@@ -16,12 +16,14 @@ import CreateProduct from './admin/CreateProduct'
 import Cart from './core/Cart'
 import UpdateCategory from './admin/UpdateCategory';
 import UpdateProduct from './admin/UpdateProduct';
+import { isAuthenticate } from './auth/apiAuth';
 
 const App = () => {
   const [search, setSearch] = useState({
     searchResult: [],
     searched: false
   });
+  const [userId, setUserId] = useState('')
 
   const handleSearch = (value) => {
     if (value) {
@@ -29,13 +31,22 @@ const App = () => {
     }
   }
 
+  const getUserId = () => {
+    if (isAuthenticate()) {
+      setUserId(isAuthenticate().user._id)
+    }
+  }
+
   useEffect(() => {
+    getUserId();
     handleSearch();
   }, [])
 
   return (
     <Router>
-      <TopBar handleSearch={handleSearch} />
+      <TopBar
+        handleSearch={handleSearch}
+        userId={userId} />
       <Switch>
         <Route path="/" exact
           render={props => (
@@ -48,7 +59,7 @@ const App = () => {
         <Route path="/all-products" exact component={AllProduct} />
         <Route path="/product/:productId" exact component={SingleProduct} />
         <UserRoute path='/profile' exact><Profile /></UserRoute>
-        <UserRoute path='/history-purchase' exact><HistoryPurchase /></UserRoute>
+        <UserRoute path='/:userId/history-purchase' exact><HistoryPurchase /></UserRoute>
         <AdminRoute path='/admin/category' exact><CategoriesList /></AdminRoute>
         <AdminRoute path='/admin/product' exact><ProductsList /></AdminRoute>
         <AdminRoute path='/create/product' exact><CreateProduct /></AdminRoute>
