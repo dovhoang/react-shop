@@ -90,7 +90,7 @@ const CreateProduct = () => {
         <form onSubmit={clickSubmit} >
             <div className="form-row">
                 <div className="form-group col-md-8">
-                    <label for="name">Product name</label>
+                    <label for="name">Tên sách</label>
                     <input
                         type="text"
                         required
@@ -102,7 +102,7 @@ const CreateProduct = () => {
                     />
                 </div>
                 <div className="form-group col-md-4">
-                    <label for="price">Price</label>
+                    <label for="price">Giá</label>
                     <input
                         type="number"
                         required
@@ -113,7 +113,7 @@ const CreateProduct = () => {
                 </div>
             </div>
             <div className="form-group">
-                <label for="description">Description</label>
+                <label for="description">Mổ tả</label>
                 <textarea
                     className='form-control'
                     id="description"
@@ -124,13 +124,13 @@ const CreateProduct = () => {
             </div>
             <div className="form-row">
                 <div className="form-group col-md-6">
-                    <label for="category">Category</label>
+                    <label for="category">Danh mục</label>
                     <select
                         id="category"
                         className="form-control"
                         onChange={handleChange('category')}
                     >
-                        <option>--Please select--</option>
+                        <option>--Lựa chọn--</option>
                         {categories && categories.map((c, i) => (
                             <option key={i} value={c._id}>
                                 {c.name}
@@ -139,21 +139,21 @@ const CreateProduct = () => {
                     </select>
                 </div>
                 <div className="form-group col-md-6">
-                    <label for="shipping">Shipping</label>
+                    <label for="shipping">Dịch vụ vận chuyển</label>
                     <select
                         id="shipping"
                         className="form-control"
                         onChange={handleChange('shipping')}
                     >
                         <option selected>--Please select--</option>
-                        <option value={0} >Yes</option>
-                        <option value={1}>No</option>
+                        <option value={0} >Có</option>
+                        <option value={1}>Không</option>
                     </select>
                 </div>
             </div>
             <div className="form-row">
                 <div className="form-group col-md-6">
-                    <label for="quantity">Quantity</label>
+                    <label for="quantity">Số lượng</label>
                     <input
                         type="number"
                         className="form-control"
@@ -162,7 +162,7 @@ const CreateProduct = () => {
                         value={quantity} />
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="photo">Choose picture</label>
+                    <label for="photo">Chọn hình ảnh</label>
                     <input
                         type="file"
                         className="form-control-file"
@@ -174,7 +174,7 @@ const CreateProduct = () => {
                 </div>
             </div>
             <div className='element-center mt-3'>
-                <button type='submit' className="btn btn-primary " >Create</button>
+                <button type='submit' className="btn btn-primary " >Thêm mới</button>
 
             </div>
         </form>
@@ -188,14 +188,14 @@ const CreateProduct = () => {
 
     const showSuccess = () => (
         <div className="alert alert-info mt-3" style={{ display: createdProduct ? '' : 'none' }}>
-            {`${createdProduct}`} is created!
+            {`${createdProduct}`} được tạo thành công!
         </div>
     );
 
     const showLoading = () =>
         loading && (
             <div className="alert alert-success mt-3">
-                Loading...
+                Đang tạo...
             </div>
         );
 
@@ -205,9 +205,10 @@ const CreateProduct = () => {
                 Create product
             </div>
             <div class="card-body">
-                {showSuccess()}
+
                 {PostForm()}
                 {showError()}
+                {showSuccess()}
                 {showLoading()}
             </div>
 

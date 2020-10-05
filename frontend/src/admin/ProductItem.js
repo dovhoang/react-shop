@@ -13,7 +13,7 @@ const ProductItem = ({ key, item, deleteItem }) => {
             <td>{item._id}</td>
             <td>{item.name}</td>
             <td>{item.price}</td>
-            <td>
+            <td className='d-flex justify-content-around'>
                 <Link to={`/update/product/${item._id}`}>
                     <button className="btn btn-info mr-2"><i class="fa fa-edit"></i></button>
                 </Link>

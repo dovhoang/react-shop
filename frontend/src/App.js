@@ -17,13 +17,16 @@ import Cart from './core/Cart'
 import UpdateCategory from './admin/UpdateCategory';
 import UpdateProduct from './admin/UpdateProduct';
 import { isAuthenticate } from './auth/apiAuth';
+import { createSlice, configureStore } from '@reduxjs/toolkit'
+import { AUTH } from './ActionType'
+
+
 
 const App = () => {
   const [search, setSearch] = useState({
     searchResult: [],
     searched: false
   });
-  const [userId, setUserId] = useState('')
 
   const handleSearch = (value) => {
     if (value) {
@@ -31,22 +34,15 @@ const App = () => {
     }
   }
 
-  const getUserId = () => {
-    if (isAuthenticate()) {
-      setUserId(isAuthenticate().user._id)
-    }
-  }
-
   useEffect(() => {
-    getUserId();
     handleSearch();
   }, [])
 
   return (
     <Router>
+      {console.log('app render')}
       <TopBar
-        handleSearch={handleSearch}
-        userId={userId} />
+        handleSearch={handleSearch} />
       <Switch>
         <Route path="/" exact
           render={props => (
@@ -60,8 +56,8 @@ const App = () => {
         <Route path="/product/:productId" exact component={SingleProduct} />
         <UserRoute path='/profile' exact><Profile /></UserRoute>
         <UserRoute path='/:userId/history-purchase' exact><HistoryPurchase /></UserRoute>
-        <AdminRoute path='/admin/category' exact><CategoriesList /></AdminRoute>
-        <AdminRoute path='/admin/product' exact><ProductsList /></AdminRoute>
+        <AdminRoute path='/admin/categories' exact><CategoriesList /></AdminRoute>
+        <AdminRoute path='/admin/products' exact><ProductsList /></AdminRoute>
         <AdminRoute path='/create/product' exact><CreateProduct /></AdminRoute>
         <AdminRoute path='/update/category/:categoryId' component={UpdateCategory} exact ><UpdateCategory /></AdminRoute>
         <AdminRoute path='/update/product/:productId' component={UpdateProduct} exact ><UpdateProduct /></AdminRoute>

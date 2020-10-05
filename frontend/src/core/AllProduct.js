@@ -6,22 +6,11 @@ import { prices } from './fixedPrice'
 import RadioBox from './RadioBox';
 import { getFilteredProducts } from './apiCore'
 import CCard from './Card'
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
-
-
-const useStyles = makeStyles((theme) => ({
-    cardGrid: {
-        paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(8),
-    }
-}));
+import { Card } from 'antd';
+import TitleList from './TitleList'
 
 const AllProduct = () => {
 
-    const classes = useStyles();
     const [categories, setCategories] = useState([])
     const [myFilter, setMyFilter] = useState({
         filters: { category: [], price: [] }
@@ -77,7 +66,7 @@ const AllProduct = () => {
     const loadMoreButton = () => (
         size > 0 && size >= limit &&
         <button
-            className='btn btn-info mb-3'
+            className='btn btn-info m-3'
             onClick={loadMore}>
             More...
         </button>
@@ -118,29 +107,31 @@ const AllProduct = () => {
 
     return <div className='row'>
         <div className="col-md-3">
-            <CheckBox
-                categories={categories}
-                handleFilter={filters =>
-                    handleFilter(filters, 'category')} />
-            <RadioBox
-                prices={prices}
-                handleFilter={filters =>
-                    handleFilter(filters, 'price')} />
+            <div>
+                <TitleList name='Bộ lọc tìm kiếm' />
+                <Card title="Theo danh mục" bordered={false} style={{ width: 300 }}>
+                    <CheckBox
+                        categories={categories}
+                        handleFilter={filters =>
+                            handleFilter(filters, 'category')} />
+                </Card>
+                <Card title="Khoảng giá" bordered={false} style={{ width: 300 }}>
+                    <RadioBox
+                        prices={prices}
+                        handleFilter={filters =>
+                            handleFilter(filters, 'price')} />
+                </Card>
+            </div>
         </div>
         <div className="col-md-9">
-            {!filteredResult.length && <h3 className='element-center mt-5'>No product found</h3>}
-            <Container className={classes.cardGrid} maxWidth="lg">
-                {/* End hero unit */}
-                <Grid container spacing={4}>
-                    {filteredResult.map(product => (
-                        <CCard key={product._id} product={product} md={4} />
-                    ))}
-                </Grid>
-            </Container>
+            <div className="row">
+                {filteredResult.map((product, i) => (
+                    <div className="col-lg-4 col-md-6 element-center">
+                        <CCard key={i} product={product} />
+                    </div>
+                ))}
+            </div>
             {loadMoreButton()}
-
-
-
         </div>
     </div >
 };

@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { getPurchaseHistory } from './apiUser'
 import { isAuthenticate } from '../auth/apiAuth'
 import '../index.css'
+import { Card } from 'antd'
+import HistoryPurchaseItem from './HistoryPurchaseItem'
 
 const HistoryPurchase = () => {
 
@@ -28,51 +30,28 @@ const HistoryPurchase = () => {
         getListPurchase()
     }, [])
 
-    const formatTime = (isoDate) => {
-        let date = new Date(isoDate);
-        return (date.getHours() + ':' + date.getMinutes() + ' ' +
-            date.getDate() + '/' + date.getMonth()
-            + '/' + date.getFullYear());
-    }
-
 
     let i = 1;
 
-    return <div className='row'>
-        <div className='col-md-10 offset-md-1'>
-            <table className="table table-inverse table-responsive">
-                <thead class="thead-inverse">
-                    <tr>
-                        <th>Order code</th>
-                        <th>Product</th>
-                        <th>Date</th>
-                        <th>Total price</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {list.map(order => {
-                        return (
-                            <tr>
-                                <td scope="row">{order._id}</td>
-                                <td>
-                                    {order.products.map(product => (
-                                        <tr>
-                                            <Link to={`/product/${product._id}`}>
-                                                {product.name}
-                                            </Link>
-                                        </tr>
-                                    ))}
-                                </td>
-                                <td > {formatTime(order.createdAt)}</td>
-                                <td > {order.amount}</td>
-                            </tr>);
-
-                    })}
-
-                </tbody>
-            </table>
-        </div >
-    </div>
+    return (
+        <div className='container'>
+            <Card style={{ width: '100%' }}>
+                <div className="row">
+                    <div className="col-md-3">
+                        ĐƠN HÀNG
+                            </div>
+                    <div className="col-md-9">
+                        CHI TIẾT
+                    </div>
+                </div>
+            </Card>
+            {list.map(order => {
+                return (
+                    <HistoryPurchaseItem order={order} />
+                );
+            })}
+        </div>
+    );
 };
 
 export default HistoryPurchase; 

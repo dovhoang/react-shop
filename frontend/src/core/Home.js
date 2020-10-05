@@ -1,81 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Button from '@material-ui/core/Button';
-import CameraIcon from '@material-ui/icons/PhotoCamera';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CssBaseline from '@material-ui/core/CssBaseline';
-
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Link from '@material-ui/core/Link';
 import { getProducts, searchProduct } from './apiCore'
 import ShowImage from '../core/ShowImage'
 import CCard from './Card'
-
 import './Home.css'
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-      </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
-
-const useStyles = makeStyles((theme) => ({
-    icon: {
-        marginRight: theme.spacing(2),
-    },
-    heroContent: {
-        backgroundColor: theme.palette.background.paper,
-        padding: theme.spacing(8, 0, 6),
-    },
-    heroButtons: {
-        marginTop: theme.spacing(4),
-    },
-    cardGrid: {
-        paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(8),
-    },
-    card: {
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    cardMedia: {
-        paddingTop: '56.25%', // 16:9
-    },
-    cardContent: {
-        flexGrow: 1,
-    },
-    footer: {
-        backgroundColor: theme.palette.background.paper,
-        padding: theme.spacing(6),
-    },
-}));
-
-const cards = [1, 2, 3, 4];
+import TitleList from './TitleList';
 
 export default function Home(props) {
-    console.log(props);
-    const classes = useStyles();
     const [productBySell, setProductBySell] = useState([]);
     const [productByArrival, setProductByArrival] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
     const [searched, setSearched] = useState(false);
     const [error, setError] = useState('');
-    console.log(searchResults);
     const loadProductBySell = () => {
         getProducts('sold').then(data => {
             if (data.error) {
@@ -107,7 +42,7 @@ export default function Home(props) {
     useEffect(() => {
         loadProductBySell();
         loadProductByArrival();
-
+        setSearched(false)
     }, []);
 
     useEffect(() => {
@@ -136,56 +71,42 @@ export default function Home(props) {
 
 
     return (
-        <React.Fragment>
-            <CssBaseline />
-            <main>
-                {searchMessage(searchResults)}
-                <Container className={classes.cardGrid} maxWidth="lg">
-                    {/* End hero unit */}
-                    <Grid container spacing={4}>
+        <div className='home'>
+            {!searched &&
+                <div className='products-home'>
+                    <TitleList name='Sản phẩm mới' />
+                    <div className="row">
+                        {productByArrival.map((product, i) => (
+                            <div className="col-lg-3 col-md-4 col-xs-6 element-center">
+                                <CCard key={i} product={product} />
+                            </div>
+                        ))}
+
+                    </div>
+                    <TitleList name='Sản phẩm bán chạy' />
+                    <div className='row mt-4'>
+                        {productByArrival.map((product, i) => (
+                            <div className="col-md-3 col-sm-4 col-xs-2 element-center">
+                                <CCard key={i} product={product} />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            }
+            {searched &&
+                <div className="">
+                    <TitleList name={`Tìm thấy ${searchResults.length} kết quả`} />
+                    <div className="row">
                         {searchResults && searchResults.map((product, i) => (
-                            <CCard key={i} product={product} />
+                            <div className="col-lg-3 col-md-4 col-xs-6 element-center">
+                                <CCard key={i} product={product} />
+                            </div>
                         ))}
-                    </Grid>
-                </Container>
-                {/* Hero unit */}
-                <h3 className="title-top5">
-                    <i className="fa fa-fire" aria-hidden="true"></i>
-                       New arrival
-                    <hr />
-                </h3>
-                <Container className={classes.cardGrid} maxWidth="lg">
-                    {/* End hero unit */}
-                    <Grid container spacing={4}>
-                        {productByArrival.map((product, i) => (
-                            <CCard key={i} product={product} />
-                        ))}
-                    </Grid>
-                </Container>
-                <h3 className="title-top5">
-                    <i className="fa fa-fire" aria-hidden="true"></i>
-                       Most popular
-                    <hr />
-                </h3>
-                <Container className={classes.cardGrid} maxWidth="lg">
-                    <Grid container spacing={4}>
-                        {productByArrival.map((product, i) => (
-                            <CCard key={i} product={product} />
-                        ))}
-                    </Grid>
-                </Container>
-            </main>
-            {/* Footer */}
-            <footer className={classes.footer}>
-                <Typography variant="h6" align="center" gutterBottom>
-                    Book Store
-        </Typography>
-                <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-                    Project for studying ReactJS!
-        </Typography>
-                <Copyright />
-            </footer>
-            {/* End footer */}
-        </React.Fragment>
+                    </div>
+                </div>
+            }
+        </div>
+
+
     );
 }

@@ -1,0 +1,19 @@
+.p-price{
+    color: red;
+    font-size: 20px;
+}
+.products-sold{
+    color: gray
+}
+
+.product-name a{
+    color: black;
+    font-weight: bold;
+}
+.product-name{
+height: 50px;
+}
+
+.product-name a:hover{
+    color: thistle !important;
+}

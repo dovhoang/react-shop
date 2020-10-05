@@ -50,8 +50,8 @@ export const getCategories = () => (
         .then(response => (response.json()))
         .catch(error => { console.log(error) })
 )
-export const getProducts = () => (
-    fetch(`${API}/products`, {
+export const getProducts = (limit) => (
+    fetch(`${API}/products?limit=${limit}`, {
         method: 'GET',
     })
         .then(response => (response.json()))

@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Redirect } from 'react-router-dom'
 import { totalCart, emptyCart } from './cartHelper'
 import { createOrder } from './apiCore'
 import { isAuthenticate } from '../auth/apiAuth'
-
+import { Card } from 'antd'
+import { createAction } from '@reduxjs/toolkit'
+import { connect } from 'react-redux'
+import { formatMoney } from './Utils'
 import '../index.css'
 
-const Checkout = ({ products, run, setRun }) => {
+const Checkout = ({ products, cartChange, updateCheckout }) => {
     const [data, setData] = useState({
         loading: true,
         success: false
@@ -20,81 +23,73 @@ const Checkout = ({ products, run, setRun }) => {
         }, 0)
     }
 
-    const listProduct = () => {
-        return (
-            <ul class="list-group">
-                {products.map(p => {
-                    return <li key={p._id} class="list-group-item">
-                        <div className="d-flex justify-content-between">
-                            <div className='ml-2 cart-summary-price'>
-                                {p.name} <span>({p.price} $)</span>
-                            </div>
-                            <div >
-                                x{p.count}
-                            </div>
-                        </div>
-                    </li>
-                })}
-
-            </ul>
-
-
-        );
-    }
-
-    const totalItems = () => {
-        return <h6>Cart summary: has {totalCart()} item(s)</h6>
+    const totalQuantity = () => {
+        return products.reduce((cur, next) => {
+            return cur + next.count;
+        }, 0)
     }
     const history = useHistory();
 
-    const handleBuy = () => {
-        let amount = totalPrice();
-        const createOrderData = {
-            products: products,
-            transaction_id: 1,
-            amount: amount,
-            address: ''
-        }
-        createOrder(user._id, token, createOrderData)
-            .then(res => {
-                emptyCart(() => {
-                    setRun(!run);
-                    setData({
-                        loading: false,
-                        success: true
-                    });
-                    history.push(`${user._id}/history-purchase`);
-                });
+    useEffect(() => {
+        totalPrice();
+        totalQuantity();
+    }, [updateCheckout])
 
-            })
-            .catch(error => {
-                console.log(error);
-                setData({ loading: false });
-            });
+    const handleBuy = () => {
+        if (!user) {
+            history.push('/signin')
+        } else {
+            let amount = totalPrice();
+            const createOrderData = {
+                products: products,
+                transaction_id: 1,
+                amount: amount,
+                address: ''
+            }
+            createOrder(user._id, token, createOrderData)
+                .then(res => {
+                    emptyCart(() => {
+                        cartChange()
+                        setData({
+                            loading: false,
+                            success: true
+                        });
+                        history.push(`${user._id}/history-purchase`);
+                    });
+
+                })
+                .catch(error => {
+                    console.log(error);
+                    setData({ loading: false });
+                });
+        }
+
     }
 
-    return <div className='mt-3'>
-        <div class="card">
-            <div class="card-header">
-                {totalItems()}
-            </div>
-            <div class="card-body card-body-custom">
-                {listProduct()}
-            </div>
-            <div class="card-footer cart-summary-price">
-                <h6>Total price:</h6>
-                <span className='float-right'>  <h3>{totalPrice()} $</h3> </span>
-            </div>
-            <div>
-                <button
-                    className='btn btn-success m-3'
-                    onClick={handleBuy}>
-                    Buy
-                </button>
-            </div>
-        </div>
-    </div>
+    return (
+        <Card title="Tóm tắt giỏ hàng" bordered={true}
+            style={{ width: 300, position: 'fixed', top: 150 }}>
+            <p>Số lượng sách: {totalQuantity()} </p>
+            <p> Tống thanh toán: <span style={{ color: 'red' }}>
+                {formatMoney(totalPrice())} đồng </span></p>
+            <button
+                className="btn btn-primary"
+                onClick={handleBuy}>
+                Mua
+            </button>
+        </Card>
+    );
 
 };
 
-export default Checkout;
+const cartChangeAction = createAction('CART_CHANGE')
+
+const mapDispatchToProps = (dispatch) => ({
+    cartChange: () => dispatch(cartChangeAction())
+})
+const mapStateToProps = state => ({
+    updateCheckout: state.updateCheckout
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

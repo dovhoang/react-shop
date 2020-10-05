@@ -6,26 +6,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import { totalCart, getCart } from './cartHelper'
 import Checkout from './Checkout'
 import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart';
+import CartItem from './CartItem'
+import { Card } from 'antd'
+import { createAction } from '@reduxjs/toolkit'
+import { connect } from 'react-redux'
 
-const useStyles = makeStyles((theme) => ({
-    cardGrid: {
-        paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(8),
-    }
-}));
-
-
-const Cart = () => {
-
-    const classes = useStyles();
+const Cart = ({ cartChange = false }) => {
     const [products, setProducts] = useState([]);
-    const [run, setRun] = useState(false);
 
     useEffect(() => {
         setProducts(getCart());
         totalPrice();
-        console.log(totalPrice());
-    }, [run])
+    }, [cartChange])
 
     const totalPrice = () => {
         var total = 0;
@@ -54,27 +46,32 @@ const Cart = () => {
             {products.length !== 0 &&
                 <div className='row'>
                     <div className='col-md-3'>
-                        <Checkout products={products}
-                            run={run}
-                            setRun={setRun} />
+                        <Checkout products={products} />
                     </div>
                     <div className="col-md-9">
-                        <Container className={classes.cardGrid} maxWidth="lg">
-                            {/* End hero unit */}
-                            <Grid container spacing={4}>
-                                {products.map((product, i) => (
-                                    <CCard key={i}
-                                        product={product}
-                                        showAddToCart={false}
-                                        showCartUpdate={true}
-                                        showRemove={true}
-                                        run={run}
-                                        setRun={setRun}
-                                        md={4}
-                                    />
-                                ))}
-                            </Grid>
-                        </Container>
+                        <Card style={{ width: '100%' }}>
+                            <div className="row">
+                                <div className="col-md-3 offset-md-2">
+                                    TÊN SÁCH
+                            </div>
+                                <div className="col-md-2">
+                                    GIÁ BÁN
+                            </div>
+                                <div className="col-md-2">
+                                    SỐ LƯỢNG
+                            </div>
+                                <div className="col-md-2">
+                                    TỔNG CỘNG GIÁ
+                            </div>
+                                <div className="col-md-1">
+
+                                </div>
+                            </div>
+                        </Card>
+                        {products.map((product) => (
+                            <CartItem key={product._id}
+                                product={product} />
+                        ))}
                     </div>
                 </div>
             }
@@ -82,5 +79,9 @@ const Cart = () => {
     );
 
 };
+const mapStateToProps = state => ({
+    cartChange: state.cart
+})
 
-export default Cart;
+
+export default connect(mapStateToProps, null)(Cart);

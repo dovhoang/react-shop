@@ -9,7 +9,7 @@ const ProductList = () => {
     const [error, setError] = useState('');
 
     const loadProducts = () => {
-        getProducts().then(data => {
+        getProducts(10).then(data => {
             if (data.error) {
                 setError(data.error);
             } else {
@@ -44,7 +44,7 @@ const ProductList = () => {
                         <th>ID</th>
                         <th>Name</th>
                         <th>Price</th>
-                        <th>
+                        <th className='text-center'>
                             <Link to='/create/product'>
                                 <button className='btn btn-success'
                                 >Create product

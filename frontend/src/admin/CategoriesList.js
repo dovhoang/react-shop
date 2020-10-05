@@ -30,32 +30,33 @@ const CategoriesList = () => {
     useEffect(() => loadCategories(), [created])
 
     return (
-        <div className='row mt-3'>
-            <div className="div col-md-3">
-                <CreateCategory setCreated={setCreated} />
+        <div className='container'>
+            <div className='row mt-3'>
+                <div className="div col-md-3">
+                    <CreateCategory setCreated={setCreated} />
+                </div>
+                <div className="col-md-9">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Id</th>
+                                <th>Category name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {categories.map((cate, i) => {
+                                return <CategoryItem key={i} item={cate} />
+                            })}
+
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
-            <div className="col-md-9">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Id</th>
-                            <th>Category name</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        {categories.map((cate, i) => {
-                            return <CategoryItem key={i} item={cate} />
-                        })}
-
-                    </tbody>
-                </table>
-            </div>
-
         </div>
-
     );
 };
 

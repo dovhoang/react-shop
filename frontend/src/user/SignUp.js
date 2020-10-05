@@ -13,19 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { signup } from '../auth/apiAuth'
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-      </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import { Link as Links } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -104,7 +92,7 @@ export default function SignUp() {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign up
+                    Đăng ký
                 </Typography>
 
                 <form className={classes.form} noValidate>
@@ -117,7 +105,7 @@ export default function SignUp() {
                                 required
                                 fullWidth
                                 id="name"
-                                label="Full name"
+                                label="Họ và tên"
                                 autoFocus
                                 onChange={handleChange('name')}
                                 value={name}
@@ -129,7 +117,7 @@ export default function SignUp() {
                                 required
                                 fullWidth
                                 id="email"
-                                label="Email Address"
+                                label="Địa chỉ email"
                                 name="email"
                                 autoComplete="email"
                                 onChange={handleChange('email')}
@@ -142,18 +130,12 @@ export default function SignUp() {
                                 required
                                 fullWidth
                                 name="password"
-                                label="Password"
+                                label="Mật khẩu"
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
                                 onChange={handleChange('password')}
                                 value={password}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <FormControlLabel
-                                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                label="I want to receive inspiration, marketing promotions and updates via email."
                             />
                         </Grid>
                     </Grid>
@@ -165,21 +147,19 @@ export default function SignUp() {
                         color="primary"
                         className={classes.submit}
                         onClick={submitHandler}
+                        style={{ backgroundColor: 'thistle', color: 'black' }}
                     >
-                        Sign Up
+                        Đăng ký
           </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link href="#" variant="body2">
-                                Already have an account? Sign in
-              </Link>
+                            <Links to='/singin' variant="body2">
+                                Bạn đã có tài khoản. Đăng nhập
+              </Links>
                         </Grid>
                     </Grid>
                 </form>
             </div>
-            <Box mt={5}>
-                <Copyright />
-            </Box>
         </Container>
     );
 

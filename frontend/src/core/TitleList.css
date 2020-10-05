@@ -1,0 +1,24 @@
+.title-list{
+    margin-top: 50px;
+    text-align: center;
+}
+
+.title-name{
+    font-size: 20px;
+    color:gray;
+    font-weight: bold;
+    margin-bottom: 34px;
+    position: relative;
+}
+
+.title-name::before{
+   position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -12px;
+    width: 80px;
+    height: 3px;
+    background: #e7ab3c;
+    content: "";
+    margin: 0 auto;
+}

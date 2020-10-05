@@ -14,20 +14,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { signin, authenticate } from '../auth/apiAuth'
 import { Redirect } from 'react-router-dom'
-
-
-function Copyright() {
-    return (
-        <Typography variant="body2" color="textSecondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
-      </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
+import { Link as Links } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { AUTH } from '../ActionType'
+import { createAction } from '@reduxjs/toolkit'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -49,8 +39,16 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const auth = createAction('AUTH');
 
-export default function SignIn() {
+const mapDispatchToProps = dispatch => {
+    return {
+        auth: () => dispatch(auth())
+    }
+}
+
+
+function SignIn(props) {
     const classes = useStyles();
     const [values, setValues] = useState({
         email: '',
@@ -95,9 +93,11 @@ export default function SignIn() {
 
     const renderAfterSignIn = () => {
         if (redirectToRender) {
+            props.auth();
             return <Redirect to="/" />
         }
     }
+
 
     return (
         <Container component="main" maxWidth="xs">
@@ -107,7 +107,7 @@ export default function SignIn() {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                    Sign in
+                    Đăng nhập
                 </Typography>
                 <form className={classes.form} noValidate>
                     <TextField
@@ -116,7 +116,7 @@ export default function SignIn() {
                         required
                         fullWidth
                         id="email"
-                        label="Email Address"
+                        label="Địa chỉ email"
                         name="email"
                         autoComplete="email"
                         autoFocus
@@ -129,7 +129,7 @@ export default function SignIn() {
                         required
                         fullWidth
                         name="password"
-                        label="Password"
+                        label="Một khẩu"
                         type="password"
                         id="password"
                         autoComplete="current-password"
@@ -138,36 +138,40 @@ export default function SignIn() {
                     />
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
+                        label="Lưu thông tin đăng nhập"
                     />
                     <Button
                         type="submit"
                         fullWidth
                         variant="contained"
-                        color="primary"
                         className={classes.submit}
                         onClick={submitHandler}
+                        style={{ backgroundColor: 'thistle', color: 'black' }}
                     >
-                        Sign In
+                        Đăng nhập
           </Button>
                     <Grid container>
                         <Grid item xs>
-                            <Link href="#" variant="body2">
-                                Forgot password?
-              </Link>
+                            <Links to='#'>
+                                Quên mật khẩu?
+                            </Links>
                         </Grid>
                         <Grid item>
-                            <Link href="#" variant="body2">
-                                {"Don't have an account? Sign Up"}
-                            </Link>
+                            <Links to="/signup" variant="body2">
+                                {"Chưa có tài khoản? Đăng ký"}
+                            </Links>
                         </Grid>
                     </Grid>
                 </form>
             </div>
-            <Box mt={8}>
-                <Copyright />
-            </Box>
             {renderAfterSignIn()}
         </Container>
     );
 }
+
+
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(SignIn)

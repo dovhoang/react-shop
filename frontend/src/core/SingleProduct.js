@@ -2,30 +2,27 @@ import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import { getSingleProduct, getRelatedProduct } from './apiCore'
 import ShowImage from './ShowImage'
-import '../index.css'
 import './SingleProduct.css'
-import CCard from './Card'
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import { scrollTop } from './Utils'
+import 'antd/dist/antd.css';
 import { addCartItem } from './cartHelper'
+import { PageHeader, Menu, Dropdown, Button, Tag, Typography, Row } from 'antd';
+import { EllipsisOutlined } from '@ant-design/icons';
+import InputNumber from './InputNumber'
+import { createAction } from '@reduxjs/toolkit'
+import { connect } from 'react-redux'
+import TitleList from './TitleList'
 
-const useStyles = makeStyles((theme) => ({
-    cardGrid: {
-        paddingTop: theme.spacing(4),
-        paddingBottom: theme.spacing(8),
-    }
-}));
-
+const { Paragraph } = Typography;
 
 const SingleProduct = (props) => {
-    const classes = useStyles();
 
     const [product, setProduct] = useState({});
     const [relatedProduct, setRelatedProduct] = useState([]);
     const [error, setError] = useState('');
     const [redirect, setRedirect] = useState(false);
+    const [quantity, setQuantity] = useState(1);
 
 
     const loadSingleProduct = productId => {
@@ -51,10 +48,13 @@ const SingleProduct = (props) => {
     }, [props])
 
     const addToCartHandler = () => {
-        addCartItem(product, () => {
+        addCartItem(product, quantity, () => {
             setRedirect(true);
+            props.cartChange();
         })
     }
+
+
 
     const redirectToCart = () => {
         if (redirect) {
@@ -62,59 +62,67 @@ const SingleProduct = (props) => {
         }
     }
 
-    return <div className='row m-2'>
-        <div className='row mt-3'>
-            <div className="col-md-4 element-center">
-                <ShowImage item={product} url='product' height={500} />
-            </div>
-            <div className="col-md-7">
-                <div class="card">
-                    <div class="card-body">
-                        <div className="name"><h4>{product.name}</h4></div>
-                        <div className="d-flex d-row justify-content-between mt-3">
-                            <div className="price">Price: <br />
-                                <span>{product.price} <i class="fa fa-usd" aria-hidden="true"></i></span></div>
-                            <div className="sold">Sold:
-                        <span> {product.sold} <i class="fa fa-book" aria-hidden="true"></i></span> </div>
-                        </div>
-                        <div className="d-flex justify-content-between mt-3">
-                            <div className="quantity "> Quantitly: <span>{product.quantity} g</span></div>
-                            <div className="category">{product.category ? product.category.name : ''}</div>
-                        </div>
+    const handleChange = (value) => {
+        setQuantity(value);
+    }
 
-                        <div className={`shipping mt-3 
-                    ${product.shipping ? 'delivery-available' : 'delivery-unavailable'}`}>
-                            <i class="fa fa-truck" aria-hidden="true"></i>
-                            {product.shipping ?
-                                ' Delivery service unavailable' : ' Delivery service unavailable'}
+    const shippingStatus = () => {
+        if (product.shipping) {
+            return (<div className='shipping-available'>
+                <i class="fa fa-truck" aria-hidden="true"></i> Vận chuyển khả dụng
+            </div>);
+        } else {
+            return (<div className='shipping-unavailable'>
+                <i class="fa fa-truck" aria-hidden="true"></i> Vận chuyển không khả dụng, vui lòng liên hệ người bán
+            </div>);
+        }
+    }
+
+    return (
+        <div className='container'>
+            <div className="row">
+                {redirectToCart()}
+                <div className="col-lg-4">
+                    <ShowImage item={product} url='product' height={400} />
+                </div>
+                <div className="col-lg-8">
+                    <h3>{product.name}</h3>
+                    <div>
+                        Giá:
+                        <h3 className="product-price">
+                            {product.price}đ
+                    </h3>
+                    </div>
+                    <div>
+                        Kho:
+                        <div className='product-quantity'>
+                            {product.quantity}
                         </div>
-                        <div className='description mt-3'> Description: </div>
-                        <div className="description-content">{product.description}</div>
-                        <div className="mt-3 element-center">
-                            <button className="btn btn-outline-primary"
-                                onClick={addToCartHandler}>Add to card</button>
-                        </div>
+                    </div>
+                    <div>
+                        {shippingStatus()}
+                    </div>
+
+                    <div className="adjust-quantity row">
+                        <InputNumber handleInputChange={handleChange} />
+                        <button className="btn btn-outline-info ml-4"
+                            onClick={addToCartHandler}
+                        >Thêm vào giỏ hàng</button>
                     </div>
                 </div>
             </div>
-            {redirectToCart()}
+            <div className="row">
+                <TitleList name='Mô tả sách' />
+                <p>{product.description}</p>
+            </div>
         </div>
-        <div className="row m-2" style={{ display: relatedProduct ? '' : 'none' }}>
-            <h3 className="title-top5">
-                <i className="fa fa-fire" aria-hidden="true"></i>
-                       Related product
-                    <hr />
-            </h3>
-            <Container className={classes.cardGrid} maxWidth="lg">
-                {/* End hero unit */}
-                <Grid container spacing={4}>
-                    {relatedProduct.map((product) => (
-                        <CCard key={product._id} product={product} onClick={scrollTop} />
-                    ))}
-                </Grid>
-            </Container>
-        </div>
-    </div>
+    );
 };
 
-export default SingleProduct;
+const cartChangeAction = createAction('CART_CHANGE')
+
+const mapDispatchToProps = (dispatch) => ({
+    cartChange: () => dispatch(cartChangeAction())
+})
+
+export default connect(null, mapDispatchToProps)(SingleProduct);
