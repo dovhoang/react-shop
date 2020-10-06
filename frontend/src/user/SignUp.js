@@ -81,6 +81,11 @@ export default function SignUp() {
             {error}
         </div>
     };
+    const showSuccess = () => {
+        return <div className="alert alert-success" style={{ display: error ? "" : "none" }}>
+            Đăng ký thành công! Đăng nhập ngay
+        </div>
+    };
 
     return (
         <Container component="main" maxWidth="xs">

@@ -99,6 +99,14 @@ function SignIn(props) {
     }
 
 
+    const showError = () => {
+        return (
+            <div className='alert alert-danger' style={{ display: values.error ? "" : "none" }}>
+                {values.error}
+            </div>
+        );
+    }
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -149,7 +157,8 @@ function SignIn(props) {
                         style={{ backgroundColor: 'thistle', color: 'black' }}
                     >
                         Đăng nhập
-          </Button>
+                    </Button>
+                    {showError()}
                     <Grid container>
                         <Grid item xs>
                             <Links to='#'>

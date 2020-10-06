@@ -19,7 +19,8 @@ const CreateProduct = () => {
         error: '',
         createdProduct: '',
         redirectToProfile: '',
-        formData: ''
+        formData: '',
+        resetFile: false
     });
 
     const {
@@ -35,7 +36,8 @@ const CreateProduct = () => {
         error,
         createdProduct,
         redirectToProfile,
-        formData
+        formData,
+        resetFile
     } = values;
 
     const { user, token } = isAuthenticate();
@@ -80,7 +82,8 @@ const CreateProduct = () => {
                     loading: false,
                     error: '',
                     formData: new FormData(),
-                    createdProduct: data.name
+                    createdProduct: data.name,
+                    resetFile: !resetFile
                 })
             }
         })
@@ -129,6 +132,7 @@ const CreateProduct = () => {
                         id="category"
                         className="form-control"
                         onChange={handleChange('category')}
+                        value={category}
                     >
                         <option>--Lựa chọn--</option>
                         {categories && categories.map((c, i) => (
@@ -144,8 +148,9 @@ const CreateProduct = () => {
                         id="shipping"
                         className="form-control"
                         onChange={handleChange('shipping')}
+                        value={shipping}
                     >
-                        <option selected>--Please select--</option>
+                        <option  >--Lựa chọn--</option>
                         <option value={0} >Có</option>
                         <option value={1}>Không</option>
                     </select>
@@ -169,7 +174,9 @@ const CreateProduct = () => {
                         name="photo"
                         id="photo"
                         accept="image/*"
-                        onChange={handleChange('photo')} />
+                        onChange={handleChange('photo')}
+                        key={resetFile}
+                    />
 
                 </div>
             </div>

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { isAuthenticate } from '../auth/apiAuth';
 import { updateProduct, getCategories, getProductById } from './apiAdmin'
 import '../index.css'
+import { Redirect } from 'react-router-dom';
 
 const CreateProduct = ({ match }) => {
 
@@ -108,7 +109,7 @@ const CreateProduct = ({ match }) => {
         <form onSubmit={clickSubmit} >
             <div className="form-row">
                 <div className="form-group col-md-8">
-                    <label for="name">Product name</label>
+                    <label for="name">Tên sách</label>
                     <input
                         type="text"
                         required
@@ -120,7 +121,7 @@ const CreateProduct = ({ match }) => {
                     />
                 </div>
                 <div className="form-group col-md-4">
-                    <label for="price">Price</label>
+                    <label for="price">Giá</label>
                     <input
                         type="number"
                         required
@@ -131,7 +132,7 @@ const CreateProduct = ({ match }) => {
                 </div>
             </div>
             <div className="form-group">
-                <label for="description">Description</label>
+                <label for="description">Mô tả</label>
                 <textarea
                     className='form-control'
                     id="description"
@@ -142,7 +143,7 @@ const CreateProduct = ({ match }) => {
             </div>
             <div className="form-row">
                 <div className="form-group col-md-6">
-                    <label for="category">Category</label>
+                    <label for="category">Danh mục</label>
                     <select
                         id="category"
                         className="form-control"
@@ -159,20 +160,20 @@ const CreateProduct = ({ match }) => {
                     </select>
                 </div>
                 <div className="form-group col-md-6">
-                    <label for="shipping">Shipping</label>
+                    <label for="shipping">Dịch vụ vận chuyển</label>
                     <select
                         id="shipping"
                         className="form-control"
                         onChange={handleChange('shipping')}
                     >
-                        <option value={0} >Yes</option>
-                        <option value={1}>No</option>
+                        <option value={0} >Có</option>
+                        <option value={1}>Không</option>
                     </select>
                 </div>
             </div>
             <div className="form-row">
                 <div className="form-group col-md-6">
-                    <label for="quantity">Quantity</label>
+                    <label for="quantity">Số lượng</label>
                     <input
                         type="number"
                         className="form-control"
@@ -181,7 +182,7 @@ const CreateProduct = ({ match }) => {
                         value={quantity} />
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="photo">Choose picture</label>
+                    <label for="photo">Chọn hình ảnh</label>
                     <input
                         type="file"
                         className="form-control-file"
@@ -193,7 +194,7 @@ const CreateProduct = ({ match }) => {
                 </div>
             </div>
             <div className='element-center mt-3'>
-                <button type='submit' className="btn btn-primary " >Update</button>
+                <button type='submit' className="btn btn-primary " >Cập nhật</button>
 
             </div>
         </form>
@@ -207,26 +208,27 @@ const CreateProduct = ({ match }) => {
 
     const showSuccess = () => (
         <div className="alert alert-info mt-3" style={{ display: createdProduct ? '' : 'none' }}>
-            {`${createdProduct}`} is update!
+            {`${createdProduct}`} được cập nhật!
         </div>
     );
 
     const showLoading = () =>
         loading && (
             <div className="alert alert-success mt-3">
-                Loading...
+                Đang cập nhật! ...
             </div>
         );
 
     return (
         <div className="card col-md-8 offset-md-2 mt-5 ">
             <div class="card-header element-center">
-                Create product
+                Cập nhật sách
             </div>
             <div class="card-body">
-                {showSuccess()}
+
                 {PostForm()}
                 {showError()}
+                {showSuccess()}
                 {showLoading()}
             </div>
 

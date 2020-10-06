@@ -53,7 +53,7 @@ const UpdateCategory = (props) => {
             <div className='col-md-6 offset-md-3'>
                 <div className="card" >
                     <div className="card-header">
-                        Update category
+                        Cập nhật danh mục
                     </div>
                     <div className="card-body">
                         <form onSubmit={clickSubmit} className='d-flex flex-column' >
@@ -70,11 +70,11 @@ const UpdateCategory = (props) => {
                                 />
                             </div>
                             <div>
-                                <button type='submit' className='btn btn-outline-primary'>Update</button>
+                                <button type='submit' className='btn btn-outline-primary'>Cập nhật</button>
                             </div>
                         </form>
                         {success &&
-                            <div className='alert alert-success mt-3'>Update successful!</div>
+                            <div className='alert alert-success mt-3'>Cập nhật thành công!</div>
                         }
                         {error !== '' &&
                             <div className='alert alert-danger mt-3'>{error}</div>

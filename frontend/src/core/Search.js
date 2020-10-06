@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { getCategories } from '../admin/apiAdmin'
 import { searchProduct } from '../core/apiCore'
+import { useHistory } from 'react-router-dom'
 import {
     Input, Select
 } from 'antd';
@@ -8,6 +9,8 @@ import 'antd/dist/antd.css';
 const { Option } = Select;
 
 const Search = (props) => {
+
+    const history = useHistory();
 
     const [data, setData] = useState({
         categories: [],
@@ -63,8 +66,10 @@ const Search = (props) => {
             } else {
                 setData({ ...data, results: res, searched: true });
                 handleSearch({ results: res, searched: true });
+                history.push('/');
             }
         })
+
     }
 
     const handlCategorySelect = (value, e) => {

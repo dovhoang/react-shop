@@ -39,9 +39,8 @@ const CategoriesList = () => {
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>#</th>
-                                <th>Id</th>
-                                <th>Category name</th>
+                                <th>Mã số </th>
+                                <th>Tên danh mục</th>
                                 <th></th>
                             </tr>
                         </thead>

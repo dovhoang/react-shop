@@ -49,50 +49,9 @@ export default function Home(props) {
         loadSearchResult();
     }, [props.search])
 
-    const searchMessage = (result = []) => {
-        let message = '';
-        if (searched && result.length > 1) {
-            message = `Found ${result.length} products`
-        }
-        if (searched && result.length === 1) {
-            message = `Found ${result.length} product`;
-        }
-        if (searched && result.length === 0) {
-            message = 'No products found';
-        }
-
-        return (message &&
-            <h3 className="title-top5">
-                <i className="fa fa-fire" aria-hidden="true"></i>
-                {message}
-                <hr />
-            </h3>);
-    }
-
 
     return (
         <div className='home'>
-            {!searched &&
-                <div className='products-home'>
-                    <TitleList name='Sản phẩm mới' />
-                    <div className="row">
-                        {productByArrival.map((product, i) => (
-                            <div className="col-lg-3 col-md-4 col-xs-6 element-center">
-                                <CCard key={i} product={product} />
-                            </div>
-                        ))}
-
-                    </div>
-                    <TitleList name='Sản phẩm bán chạy' />
-                    <div className='row mt-4'>
-                        {productByArrival.map((product, i) => (
-                            <div className="col-md-3 col-sm-4 col-xs-2 element-center">
-                                <CCard key={i} product={product} />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            }
             {searched &&
                 <div className="">
                     <TitleList name={`Tìm thấy ${searchResults.length} kết quả`} />
@@ -105,6 +64,26 @@ export default function Home(props) {
                     </div>
                 </div>
             }
+            <div className='products-home'>
+                <TitleList name='Sản phẩm mới' />
+                <div>
+                    {productByArrival.map((product, i) => (
+                        <div className="col-lg-3 col-md-4 col-xs-6 element-center">
+                            <CCard key={i} product={product} />
+                        </div>
+                    ))}
+
+                </div>
+                <TitleList name='Sản phẩm bán chạy' />
+                <div className='row mt-4'>
+                    {productByArrival.map((product, i) => (
+                        <div className="col-md-3 col-sm-4 col-xs-2 element-center">
+                            <CCard key={i} product={product} />
+                        </div>
+                    ))}
+                </div>
+            </div>
+
         </div>
 
 

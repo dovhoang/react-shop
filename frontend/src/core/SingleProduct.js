@@ -3,18 +3,15 @@ import { Redirect } from 'react-router-dom'
 import { getSingleProduct, getRelatedProduct } from './apiCore'
 import ShowImage from './ShowImage'
 import './SingleProduct.css'
-import { makeStyles } from '@material-ui/core/styles';
-import { scrollTop } from './Utils'
 import 'antd/dist/antd.css';
 import { addCartItem } from './cartHelper'
-import { PageHeader, Menu, Dropdown, Button, Tag, Typography, Row } from 'antd';
-import { EllipsisOutlined } from '@ant-design/icons';
 import InputNumber from './InputNumber'
 import { createAction } from '@reduxjs/toolkit'
 import { connect } from 'react-redux'
 import TitleList from './TitleList'
-
-const { Paragraph } = Typography;
+import Loading from './Loading'
+import CCard from './Card'
+import { scrollTop } from './Utils'
 
 const SingleProduct = (props) => {
 
@@ -23,6 +20,7 @@ const SingleProduct = (props) => {
     const [error, setError] = useState('');
     const [redirect, setRedirect] = useState(false);
     const [quantity, setQuantity] = useState(1);
+    const [loading, setLoading] = useState(true);
 
 
     const loadSingleProduct = productId => {
@@ -36,8 +34,10 @@ const SingleProduct = (props) => {
                         setError(data.error);
                     } else {
                         setRelatedProduct(data);
+                        setLoading(false)
                     }
                 })
+
             }
         })
     }
@@ -45,6 +45,7 @@ const SingleProduct = (props) => {
     useEffect(() => {
         const productId = props.match.params.productId;
         loadSingleProduct(productId)
+        scrollTop();
     }, [props])
 
     const addToCartHandler = () => {
@@ -80,41 +81,57 @@ const SingleProduct = (props) => {
 
     return (
         <div className='container'>
-            <div className="row">
-                {redirectToCart()}
-                <div className="col-lg-4">
-                    <ShowImage item={product} url='product' height={400} />
-                </div>
-                <div className="col-lg-8">
-                    <h3>{product.name}</h3>
-                    <div>
-                        Giá:
+            {loading && <Loading />}
+            {!loading &&
+                <div>
+                    <div className="row">
+                        {redirectToCart()}
+                        <div className="col-lg-4">
+                            <ShowImage item={product} url='product' height={400} />
+                        </div>
+                        <div className="col-lg-8">
+                            <h3>{product.name}</h3>
+                            <div>
+                                Giá:
                         <h3 className="product-price">
-                            {product.price}đ
-                    </h3>
-                    </div>
-                    <div>
-                        Kho:
+                                    {product.price}đ
+                         </h3>
+                            </div>
+                            <div>
+                                Kho:
                         <div className='product-quantity'>
-                            {product.quantity}
+                                    {product.quantity}
+                                </div>
+                            </div>
+                            <div>
+                                {shippingStatus()}
+                            </div>
+
+                            <div className="adjust-quantity row">
+                                <InputNumber handleInputChange={handleChange} />
+                                <button className="btn btn-outline-info ml-4"
+                                    onClick={addToCartHandler}
+                                >Thêm vào giỏ hàng</button>
+                            </div>
                         </div>
                     </div>
                     <div>
-                        {shippingStatus()}
+                        <TitleList name='Mô tả sách' />
+                        <p>{product.description}</p>
                     </div>
-
-                    <div className="adjust-quantity row">
-                        <InputNumber handleInputChange={handleChange} />
-                        <button className="btn btn-outline-info ml-4"
-                            onClick={addToCartHandler}
-                        >Thêm vào giỏ hàng</button>
+                    <div>
+                        <TitleList name='Sách tương tự' />
+                        <div className="row">
+                            {relatedProduct.map(product => (
+                                <div className="col-lg-3 col-md-4 col-xs-6 element-center">
+                                    <CCard key={product._id} product={product} />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="row">
-                <TitleList name='Mô tả sách' />
-                <p>{product.description}</p>
-            </div>
+            }
+
         </div>
     );
 };

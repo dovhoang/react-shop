@@ -28,6 +28,7 @@ export const totalCart = () => {
     return 0;
 }
 
+
 export const updateItem = (productId, count) => {
 
     let cart = [];

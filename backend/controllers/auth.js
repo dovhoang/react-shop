@@ -11,7 +11,7 @@ exports.signup = (req, res) => {
         if (err) {
             return res.status(400).json({
                 // error: errorHandler(err)
-                error: 'Email is taken'
+                error: 'Email đã tồn tại'
             });
         }
         user.salt = undefined;
@@ -48,7 +48,7 @@ exports.signin = (req, res) => {
     User.findOne({ email }, (err, user) => {
         if (err || !user) {
             return res.status(400).json({
-                error: 'User with that email does not exist. Please signup'
+                error: 'Tên đăng nhập hoặc mật khẩu không đúng!'
             });
         }
         // if user is found make sure the email and password match

@@ -41,13 +41,13 @@ const ProductList = () => {
             <table class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Price</th>
+                        <th>Mã số</th>
+                        <th>Tên sách</th>
+                        <th>Giá</th>
                         <th className='text-center'>
                             <Link to='/create/product'>
                                 <button className='btn btn-success'
-                                >Create product
+                                >Thêm mới
                                 </button>
                             </Link>
                         </th>

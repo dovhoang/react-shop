@@ -1,9 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-const CategoryItem = ({ key, item }) => {
+const CategoryItem = ({ item }) => {
     return (
         <tr>
-            <td>{key}</td>
             <td>{item._id}</td>
             <td>{item.name}</td>
             <td>
